@@ -58,6 +58,10 @@
 	(custom-set-variables '(pug-tab-width 2)))
 (use-package dash :ensure t)
 
+(use-package elpy
+  :ensure t
+  :config
+  (elpy-enable))
 (use-package coffee-mode
   :ensure t
   :config
@@ -281,7 +285,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (setq undo-tree-history-directory-alist
 	(list (cons "." (expand-file-name "undo-tree-history" user-emacs-directory)))))
 
-(setq tab-stop-list (number-sequence 2 120 2))
+;; (setq tab-stop-list (number-sequence 2 120 2))
 (define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
 
 (unless (package-installed-p 'use-package)
@@ -318,8 +322,8 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (add-hook 'org-mode-hook 'evil-org-mode)
 
-(use-package anaconda-mode
-  :ensure t)
+;; (use-package anaconda-mode
+;;   :ensure t)
 
 (use-package flycheck
   :ensure t
@@ -343,7 +347,8 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;;   (add-hook 'prog-mode-hook #'nlinum-relative-mode))
 
 ;;; Python mode:
-(add-hook 'python-mode-hook 'anaconda-mode
+;; (add-hook 'python-mode-hook 'anaconda-mode
+(add-hook 'python-mode-hook
           (lambda ()
             ;; I'm rudely redefining this function to do a comparison of `point'
             ;; to the end marker of the `comint-last-prompt' because the original
