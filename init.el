@@ -1,4 +1,6 @@
-;;; init.el --- My emacs config file
+;;; init.el - emacs config file.
+;;; Commentary:
+;;; Code:
 
 ;; Turn off mouse interface early in startup to avoid momentary display
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -42,11 +44,24 @@
 (eval-when-compile
   (require 'use-package))
 
+(use-package nov
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+
 (use-package s
   :ensure t
   :defer 1)
 
+(use-package pug-mode :ensure t
+  :config
+	(custom-set-variables '(pug-tab-width 2)))
 (use-package dash :ensure t)
+
+(use-package coffee-mode
+  :ensure t
+  :config
+  (custom-set-variables '(coffee-tab-width 4)))
 
 (use-package helm
   :ensure t
@@ -266,6 +281,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (setq undo-tree-history-directory-alist
 	(list (cons "." (expand-file-name "undo-tree-history" user-emacs-directory)))))
 
+(setq tab-stop-list (number-sequence 2 120 2))
 (define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
 
 (unless (package-installed-p 'use-package)
@@ -291,7 +307,19 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (require 'init-evil)
 (require 'init-flycheck)
 
+(use-package evil-org
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme))))
 
+(add-hook 'org-mode-hook 'evil-org-mode)
+
+(use-package anaconda-mode
+  :ensure t)
 
 (use-package flycheck
   :ensure t
@@ -302,6 +330,68 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 	  (lambda ()
 	    (evil-define-key 'normal flycheck-mode-map (kbd "]e") 'flycheck-next-error)
 	    (evil-define-key 'normal flycheck-mode-map (kbd "[e") 'flycheck-previous-error)))
+;;; Lisp interaction mode & Emacs Lisp mode:
+(add-hook 'lisp-interaction-mode-hook
+          (lambda ()
+            (define-key lisp-interaction-mode-map (kbd "<C-return>") 'eval-last-sexp)))
+
+;; (use-package nlinum-relative
+;;   :ensure t
+;;   :config
+;;   (nlinum-relative-setup-evil)
+;;   (setq nlinum-relative-redisplay-delay 0)
+;;   (add-hook 'prog-mode-hook #'nlinum-relative-mode))
+
+;;; Python mode:
+(add-hook 'python-mode-hook 'anaconda-mode
+          (lambda ()
+            ;; I'm rudely redefining this function to do a comparison of `point'
+            ;; to the end marker of the `comint-last-prompt' because the original
+            ;; method of using `looking-back' to match the prompt was never
+            ;; matching, which hangs the shell startup forever.
+            (defun python-shell-accept-process-output (process &optional timeout regexp)
+              "Redefined to actually work."
+              (let ((regexp (or regexp comint-prompt-regexp)))
+                (catch 'found
+                  (while t
+                    (when (not (accept-process-output process timeout))
+                      (throw 'found nil))
+                    (when (= (point) (cdr (python-util-comint-last-prompt)))
+                      (throw 'found t))))))
+
+            ;; Additional settings follow.
+            (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+
+;;; The Emacs Shell
+(defun company-eshell-history (command &optional arg &rest ignored)
+  "Complete from shell history when starting a new line.
+
+Provide COMMAND and ARG in keeping with the Company Mode backend spec.
+The IGNORED argument is... Ignored."
+  (interactive (list 'interactive))
+  (cl-case command
+    (interactive (company-begin-backend 'company-eshell-history))
+    (prefix (and (eq major-mode 'eshell-mode)
+                 (let ((word (company-grab-word)))
+                   (save-excursion
+                     (eshell-bol)
+                     (and (looking-at-p (s-concat word "$")) word)))))
+    (candidates (remove-duplicates
+                 (->> (ring-elements eshell-history-ring)
+                      (remove-if-not (lambda (item) (s-prefix-p arg item)))
+                      (mapcar 's-trim))
+                 :test 'string=))
+    (sorted t)))
+
+(defadvice term-sentinel (around my-advice-term-sentinel (proc msg))
+  "Kill term buffer when term is ended."
+  (if (memq (process-status proc) '(signal exit))
+      (let ((buffer (process-buffer proc)))
+        ad-do-it
+        (kill-buffer buffer))
+    ad-do-it))
+(ad-activate 'term-sentinel)
+
 
 (provide 'init)
 ;;; init.el ends here
