@@ -7,7 +7,7 @@
 (use-package flycheck
   :ensure t
   :config
-  ;(add-hook 'after-init-hook 'global-flycheck-mode)
+  (add-hook 'after-init-hook 'global-flycheck-mode)
 
   ;; Flycheck mode:
   (add-hook 'flycheck-mode-hook

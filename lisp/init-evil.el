@@ -4,7 +4,6 @@
   "Configure evil leader mode"
   (evil-leader/set-leader ",")
   (evil-leader/set-key
-   "#"  'server-edit
    ","  'other-window
    "."  'mode-line-other-buffer
    ":"  'eval-expression
@@ -18,6 +17,7 @@
    "p"	'helm-show-kill-ring
    "s"	'ag-project		       ;; Ag search from project's root
    "S"	'delete-trailing-whitespace
+   "#"  'server-edit
    "w"	'save-buffer
    "x"	'helm-M-x
    "y"	'simpleclip-copy)
@@ -66,6 +66,8 @@
     (kbd "C-w C-w")	'other-window)
 
   ;; Global bindings
+  (evil-define-key 'normal global-map (kbd "C-p")	'helm-projectile)
+  (evil-define-key 'normal global-map (kbd "C-S-p")	'helm-projectile-switch-project)
   (evil-define-key 'normal global-map (kbd "C-`")	(lambda ()
 							(interactive)
 							(dired (expand-file-name "~"))))
