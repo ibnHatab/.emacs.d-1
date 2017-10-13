@@ -17,6 +17,9 @@
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(package-selected-packages
+   (quote
+    (exec-path-from-shell buttercup bpr gtags evil-org evil-indent-textobject evil-surround evil-leader magit highlight-symbol which-key yaml-mode mmm-mode zenburn-theme color-theme-sanityinc-tomorrow gruvbox-theme sublime-themes web-mode comment-dwim-2 powerline-evil evil powerline ag wgrep-ag wgrep markdown-mode helm-projectile flycheck emmet-mode dictionary counsel helm coffee-mode elpy pug-mode s nov use-package fullframe)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pug-tab-width 2)
  '(safe-local-variable-values (quote ((no-byte-compile t))))
@@ -47,4 +50,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((((class color) (min-colors 16777215)) (:background "#282828" :foreground "#fdf4c1")) (((class color) (min-colors 255)) (:background "#262626" :foreground "#ffffaf")))))

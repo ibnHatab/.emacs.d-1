@@ -1,4 +1,4 @@
-;;; init.el - emacs config file.
+;;; init.el --- emacs config file.
 ;;; Commentary:
 ;;; Code:
 
@@ -27,8 +27,8 @@
 	(add-to-list 'load-path (car file))))))
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-(add-to-list 'exec-path "/usr/bin")
 (add-to-list 'exec-path "/usr/local/bin")
+(add-to-list 'exec-path "/usr/bin")
 
 ;; Take out the trash
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -62,6 +62,7 @@
   :ensure t
   :config
   (elpy-enable))
+
 (use-package coffee-mode
   :ensure t
   :config
@@ -188,12 +189,12 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (setq ag-reuse-buffers t)
   (setq ag-reuse-window t))
 
-(use-package powerline
-  :ensure t)
+;; (use-package powerline
+;;   :ensure t)
 (use-package evil
   :ensure t)
-(use-package powerline-evil
-  :ensure t)
+;; (use-package powerline-evil
+;;   :ensure t)
 (use-package comment-dwim-2
   :ensure t)
 
@@ -299,15 +300,19 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (use-package markdown-mode
 	     :ensure t)
 
-(require 'powerline)
-(require 'powerline-evil)
-(powerline-default-theme)
+;; (require 'powerline)
+;; (require 'powerline-evil)
+;; (powerline-default-theme)
 
 ;; load theme
 (load-theme 'zenburn t)
 
+(require 'init-platform)
 (require 'init-global)
 (require 'init-keybindings)
+(require 'init-fonts)
+(require 'init-powerline)
+(require 'init-gtags)
 (require 'init-evil)
 (require 'init-flycheck)
 
@@ -349,6 +354,10 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;;; Python mode:
 ;; (add-hook 'python-mode-hook 'anaconda-mode
 (add-hook 'python-mode-hook
+	  (lambda ()
+	    (setq indent-tabs-mode t)
+	    (setq tab-width 4)
+	    (setq python-indent-offset 4))
           (lambda ()
             ;; I'm rudely redefining this function to do a comparison of `point'
             ;; to the end marker of the `comint-last-prompt' because the original

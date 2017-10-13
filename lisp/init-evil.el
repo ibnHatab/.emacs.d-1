@@ -1,4 +1,6 @@
-;;; init-evil.el -- Custom evil mode configuration
+;;; init-evil.el --- Custom evil mode configuration.
+;;; Commentary: for flycheck purposes
+;;; Code: below
 
 (defun g--config-evil-leader ()
   "Configure evil leader mode"
@@ -19,6 +21,8 @@
    "p"	'helm-show-kill-ring
    "s"	'ag-project		       ;; Ag search from project's root
    "S"	'delete-trailing-whitespace
+   "t"	'gtags-reindex
+   "T"	'gtags-find-tag
    "#"  'server-edit
    "w"	'save-buffer
    "x"	'helm-M-x
