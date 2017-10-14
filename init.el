@@ -184,7 +184,10 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 	      (wgrep-ag-setup)
 	      (define-key ag-mode-map (kbd "n") 'evil-search-next)
 	      (define-key ag-mode-map (kbd "N") 'evil-search-previous)))
-  (setq ag-executable "/usr/bin/ag")
+  (when (eq system-type 'darwin)
+    (setq ag-executable "/usr/local/bin/ag"))
+  (when (eq system-type 'gnu/linux)
+    (setq ag-executable "/usr/bin/ag"))
   (setq ag-highlight-search t)
   (setq ag-reuse-buffers t)
   (setq ag-reuse-window t))
@@ -305,7 +308,8 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;; (powerline-default-theme)
 
 ;; load theme
-(load-theme 'zenburn t)
+(load-theme 'sanityinc-tomorrow-eighties t)
+;; (load-theme 'zenburn t)
 
 (require 'init-platform)
 (require 'init-global)
@@ -323,7 +327,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
             (lambda ()
-              (evil-org-set-key-theme))))
+              (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading)))))
 
 (add-hook 'org-mode-hook 'evil-org-mode)
 
