@@ -308,8 +308,10 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;; (powerline-default-theme)
 
 ;; load theme
-(load-theme 'sanityinc-tomorrow-eighties t)
-;; (load-theme 'zenburn t)
+(when (eq system-type 'darwin)
+  (load-theme 'sanityinc-tomorrow-eighties t))
+(when (eq system-type 'gnu/linux)
+  (load-theme 'zenburn t))
 
 (require 'init-platform)
 (require 'init-global)
