@@ -48,7 +48,10 @@
      (320 . "#de935f")
      (340 . "#f0c674")
      (360 . "#b5bd68"))))
- '(vc-annotate-very-old-color nil))
+ '(vc-annotate-very-old-color nil)
+ '(whitespace-style
+   (quote
+    (face trailing tabs spaces lines newline empty indentation space-after-tab space-before-tab space-mark tab-mark newline-mark))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
