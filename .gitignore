@@ -51,3 +51,10 @@ nov-places
 
 # vim swapfiles (oops)
 *.swp
+
+# web mode
+/request
+/url
+
+# trello
+.trello/gabuscus.el

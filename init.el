@@ -51,13 +51,19 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
+(use-package org-trello
+  :ensure t
+  :config
+  (custom-set-variables '(org-trello-files '("~/org/trello.org"))))
+
 (use-package s
   :ensure t
   :defer 1)
 
 (use-package pug-mode :ensure t
   :config
-	(custom-set-variables '(pug-tab-width 2)))
+  (custom-set-variables '(pug-tab-width 2)))
+
 (use-package dash :ensure t)
 
 (use-package elpy
