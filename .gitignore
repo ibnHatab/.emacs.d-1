@@ -45,3 +45,9 @@ projectile*
 
 # directory configuration
 .dir-locals.el
+
+# ebook marks
+nov-places
+
+# vim swapfiles (oops)
+*.swp

@@ -318,9 +318,11 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (require 'init-keybindings)
 (require 'init-fonts)
 (require 'init-powerline)
-(require 'init-gtags)
+;; (require 'init-gtags)
 (require 'init-evil)
 (require 'init-flycheck)
+;; (require 'gitignore-mode)
+(require 'init-git)
 
 (use-package evil-org
   :ensure t
