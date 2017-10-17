@@ -8,6 +8,8 @@
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+;; Turn off bell alarms
+(setq ring-bell-function 'ignore)
 
 ;; Disable splash screen
 (setq inhibit-startup-screen t)
