@@ -322,7 +322,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 ;; load theme
 ;; (when (eq system-type 'darwin)
-(load-theme 'sanityinc-tomorrow-eighties t))
+(load-theme 'sanityinc-tomorrow-eighties t)
 ;; (when (eq system-type 'gnu/linux)
   ;; (load-theme 'zenburn t))
 
