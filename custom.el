@@ -16,6 +16,7 @@
     (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
  '(fci-rule-color "#373b41")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
+ '(indent-tabs-mode nil)
  '(linum-format " %7i ")
  '(nrepl-message-colors
    (quote
@@ -26,7 +27,7 @@
     (exec-path-from-shell buttercup bpr gtags evil-org evil-indent-textobject evil-surround evil-leader magit highlight-symbol which-key yaml-mode mmm-mode zenburn-theme color-theme-sanityinc-tomorrow gruvbox-theme sublime-themes web-mode comment-dwim-2 powerline-evil evil powerline ag wgrep-ag wgrep markdown-mode helm-projectile flycheck emmet-mode dictionary counsel helm coffee-mode elpy pug-mode s nov use-package fullframe)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pug-tab-width 2)
- '(ring-bell-function (quote ignore))
+ '(ring-bell-function (quote ignore) t)
  '(safe-local-variable-values (quote ((no-byte-compile t))))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map

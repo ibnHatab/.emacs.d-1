@@ -53,10 +53,13 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
+ ;; '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
+ ;; '(org-trello-files (quote ("~/org/trello.org")) nil (org-trello))
 (use-package org-trello
   :ensure t
   :config
-  (custom-set-variables '(org-trello-files '("~/org/trello.org"))))
+  (custom-set-variables '(org-trello-files '("~/org/trello.org"))
+                        '(org-trello-current-prefix-keybinding "C-c o")))
 
 (use-package s
   :ensure t
@@ -318,10 +321,10 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;; (powerline-default-theme)
 
 ;; load theme
-(when (eq system-type 'darwin)
-  (load-theme 'sanityinc-tomorrow-eighties t))
-(when (eq system-type 'gnu/linux)
-  (load-theme 'zenburn t))
+;; (when (eq system-type 'darwin)
+(load-theme 'sanityinc-tomorrow-eighties t))
+;; (when (eq system-type 'gnu/linux)
+  ;; (load-theme 'zenburn t))
 
 (require 'init-platform)
 (require 'init-global)
@@ -348,6 +351,9 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;; (use-package anaconda-mode
 ;;   :ensure t)
 
+(use-package hideshow-org
+  :ensure t)
+
 (use-package flycheck
   :ensure t
   :commands flycheck-mode)
@@ -371,9 +377,10 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 ;;; Python mode:
 ;; (add-hook 'python-mode-hook 'anaconda-mode
-(add-hook 'python-mode-hook
+(add-hook 'elpy-mode-hook #'hs-minor-mode)
+(add-hook 'python-mode-hook 'hs-minor-mode
 	  (lambda ()
-	    (setq indent-tabs-mode t)
+	    (setq indent-tabs-mode nil)
 	    (setq tab-width 4)
 	    (setq python-indent-offset 4))
           (lambda ()
