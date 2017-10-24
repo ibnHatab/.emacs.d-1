@@ -71,6 +71,8 @@
 
 (use-package dash :ensure t)
 
+(use-package py-yapf :ensure t)
+
 (use-package elpy
   :ensure t
   :config
@@ -352,6 +354,12 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;;   :ensure t)
 
 (use-package hideshow-org
+  :ensure t)
+
+(use-package xcscope
+  :ensure t)
+
+(use-package helm-cscope
   :ensure t)
 
 (use-package flycheck
