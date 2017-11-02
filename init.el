@@ -306,6 +306,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 ;; (setq tab-stop-list (number-sequence 2 120 2))
 (define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
+(setq-default tab-width 4)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -375,6 +376,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (add-hook 'lisp-interaction-mode-hook
           (lambda ()
             (define-key lisp-interaction-mode-map (kbd "<C-return>") 'eval-last-sexp)))
+(setq nxml-child-indent 4 nxml-attribute-indent 4)
 
 ;; (use-package nlinum-relative
 ;;   :ensure t
