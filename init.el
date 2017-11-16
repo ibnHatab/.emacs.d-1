@@ -61,9 +61,38 @@
   (custom-set-variables '(org-trello-files '("~/org/trello.org"))
                         '(org-trello-current-prefix-keybinding "C-c o")))
 
+(use-package lua-mode
+  :ensure t
+  :config
+  (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+  (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+  (add-to-list 'interpreter-mode-alist '("lua" . lua-mode)))
+
 (use-package s
   :ensure t
   :defer 1)
+
+(use-package tide :ensure t
+  :config
+  (defun setup-tide-mode ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1)
+    ;; company is an optional dependency. You have to
+    ;; install it separately via package-install
+    ;; `M-x package-install [ret] company`
+    (company-mode +1))
+
+  ;; aligns annotation to the right hand side
+  (setq company-tooltip-align-annotations t)
+
+  ;; formats the buffer before saving
+  (add-hook 'before-save-hook 'tide-format-before-save)
+
+  (add-hook 'typescript-mode-hook #'setup-tide-mode))
 
 (use-package pug-mode :ensure t
   :config
@@ -306,7 +335,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 ;; (setq tab-stop-list (number-sequence 2 120 2))
 (define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
-(setq-default tab-width 4)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -376,7 +404,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (add-hook 'lisp-interaction-mode-hook
           (lambda ()
             (define-key lisp-interaction-mode-map (kbd "<C-return>") 'eval-last-sexp)))
-(setq nxml-child-indent 4 nxml-attribute-indent 4)
 
 ;; (use-package nlinum-relative
 ;;   :ensure t
