@@ -53,6 +53,11 @@
      (340 . "#f0c674")
      (360 . "#b5bd68"))))
  '(vc-annotate-very-old-color nil)
+ '(web-mode-attr-indent-offset 2)
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-css-indent-offset 2)
+ '(web-mode-markup-indent-offset 2)
+ '(web-mode-sql-indent-offset 2)
  '(whitespace-style
    (quote
     (face trailing tabs spaces lines newline empty indentation space-after-tab space-before-tab space-mark tab-mark newline-mark))))

@@ -3,6 +3,7 @@
 ;;; Code:
 
 ;; Turn off mouse interface early in startup to avoid momentary display
+(setq backup-directory-alist `(("." . "~/.saves")))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -55,11 +56,11 @@
 
  ;; '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
  ;; '(org-trello-files (quote ("~/org/trello.org")) nil (org-trello))
-(use-package org-trello
-  :ensure t
-  :config
-  (custom-set-variables '(org-trello-files '("~/org/trello.org"))
-                        '(org-trello-current-prefix-keybinding "C-c o")))
+;; (use-package org-trello
+;;   :ensure t
+;;   :config
+;;   (custom-set-variables '(org-trello-files '("~/org/trello.org"))
+;;                         '(org-trello-current-prefix-keybinding "C-c o")))
 
 (use-package lua-mode
   :ensure t
@@ -335,6 +336,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 ;; (setq tab-stop-list (number-sequence 2 120 2))
 (define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
+(setq-default tab-width 4)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -404,6 +406,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (add-hook 'lisp-interaction-mode-hook
           (lambda ()
             (define-key lisp-interaction-mode-map (kbd "<C-return>") 'eval-last-sexp)))
+(setq nxml-child-indent 4 nxml-attribute-indent 4)
 
 ;; (use-package nlinum-relative
 ;;   :ensure t
