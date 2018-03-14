@@ -10,8 +10,8 @@
    "."  'mode-line-other-buffer
    ":"  'eval-expression
    "b"  'helm-mini		       ;; Switch to another buffer
-   "d"	'anaconda-mode-find-definitions
-   "k"	'anaconda-mode-show-doc
+   "d"	'elpy-goto-definition
+   "k"	'elpy-doc
    "B"	'magit-blame-toggle
    "c"	'comment-dwim-2
    "f"	'helm-imenu

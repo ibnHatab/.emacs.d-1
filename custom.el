@@ -29,7 +29,6 @@
  '(pug-tab-width 2)
  '(ring-bell-function (quote ignore) t)
  '(safe-local-variable-values (quote ((no-byte-compile t))))
- '(tab-width 2)
  '(typescript-indent-level 2)
  '(vc-annotate-background nil)
  '(vc-annotate-color-map

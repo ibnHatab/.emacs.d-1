@@ -106,6 +106,9 @@
 (use-package elpy
   :ensure t
   :config
+  (setq python-shell-interpreter "jupyter"
+    python-shell-interpreter-args "console --simple-prompt")
+  (setq python-shell-completion-native-enable nil)
   (elpy-enable))
 
 (use-package coffee-mode
@@ -415,6 +418,11 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;;   (setq nlinum-relative-redisplay-delay 0)
 ;;   (add-hook 'prog-mode-hook #'nlinum-relative-mode))
 
+(defun my-c++-mode-hook ()
+  (c-set-style "stroustrup")
+  ;; (auto-fill-mode)
+  (c-toggle-auto-hungry-state 1))
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
 ;;; Python mode:
 ;; (add-hook 'python-mode-hook 'anaconda-mode
 (add-hook 'elpy-mode-hook #'hs-minor-mode)
@@ -474,3 +482,5 @@ The IGNORED argument is... Ignored."
 
 (provide 'init)
 ;;; init.el ends here
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
