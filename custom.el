@@ -16,6 +16,7 @@
     (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
  '(fci-rule-color "#373b41")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
+ '(helm-ff-file-name-history-use-recentf t)
  '(indent-tabs-mode nil)
  '(linum-format " %7i ")
  '(nrepl-message-colors
@@ -24,11 +25,15 @@
  '(org-support-shift-select (quote always))
  '(package-selected-packages
    (quote
-    (exec-path-from-shell buttercup bpr gtags evil-org evil-indent-textobject evil-surround evil-leader magit highlight-symbol which-key yaml-mode mmm-mode zenburn-theme color-theme-sanityinc-tomorrow gruvbox-theme sublime-themes web-mode comment-dwim-2 powerline-evil evil powerline ag wgrep-ag wgrep markdown-mode helm-projectile flycheck emmet-mode dictionary counsel helm coffee-mode elpy pug-mode s nov use-package fullframe)))
+    (0blayout malyon string-inflection 2048-game chess mines omni-quotes pacmacs sudoku turing-machine typing landmark org-brain exec-path-from-shell buttercup bpr gtags evil-org evil-indent-textobject evil-surround evil-leader magit highlight-symbol which-key yaml-mode mmm-mode zenburn-theme color-theme-sanityinc-tomorrow gruvbox-theme sublime-themes web-mode comment-dwim-2 powerline-evil evil powerline ag wgrep-ag wgrep markdown-mode helm-projectile flycheck emmet-mode dictionary counsel helm coffee-mode elpy pug-mode s nov use-package fullframe)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pug-tab-width 2)
- '(ring-bell-function (quote ignore) t)
+ '(recentf-max-menu-items 40)
+ '(recentf-max-saved-items 150)
+ '(recentf-mode t)
+ '(ring-bell-function (quote ignore))
  '(safe-local-variable-values (quote ((no-byte-compile t))))
+ '(save-interprogram-paste-before-kill t)
  '(typescript-indent-level 2)
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
