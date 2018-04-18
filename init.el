@@ -106,10 +106,18 @@
 (use-package elpy
   :ensure t
   :config
-  (setq python-shell-interpreter "jupyter"
-    python-shell-interpreter-args "console --simple-prompt")
+  (setq python-shell-interpreter "ipython"
+    python-shell-interpreter-args "-i --simple-prompt")
   (setq python-shell-completion-native-enable nil)
   (elpy-enable))
+
+(use-package multiple-cursors
+  :ensure t
+  :config
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
 (use-package coffee-mode
   :ensure t
