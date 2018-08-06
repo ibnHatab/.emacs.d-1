@@ -112,6 +112,12 @@
 
 (use-package py-yapf :ensure t)
 
+(use-package org-bullets
+  :after org
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook 'org-bullets-mode))
+
 (use-package elpy
   :ensure t
   :config
@@ -405,6 +411,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (require 'init-flycheck)
 ;; (require 'gitignore-mode)
 (require 'init-git)
+(require 'init-org)
 
 
 (use-package org-bullets
@@ -518,6 +525,9 @@ The IGNORED argument is... Ignored."
         (kill-buffer buffer))
     ad-do-it))
 (ad-activate 'term-sentinel)
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
 
 (provide 'init)
