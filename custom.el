@@ -22,10 +22,13 @@
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(org-agenda-files
+   (quote
+    ("~/org/work_status.org" "~/org/gtd/tickler.org" "~/org/gtd/gtd.org" "~/.emacs.d/lisp/init-org.el")))
  '(org-support-shift-select (quote always))
  '(package-selected-packages
    (quote
-    (jinja2-mode speed-type 0blayout malyon string-inflection 2048-game chess mines omni-quotes pacmacs sudoku turing-machine typing landmark org-brain exec-path-from-shell buttercup bpr gtags evil-org evil-indent-textobject evil-surround evil-leader magit highlight-symbol which-key yaml-mode mmm-mode zenburn-theme color-theme-sanityinc-tomorrow gruvbox-theme sublime-themes web-mode comment-dwim-2 powerline-evil evil powerline ag wgrep-ag wgrep markdown-mode helm-projectile flycheck emmet-mode dictionary counsel helm coffee-mode elpy pug-mode s nov use-package fullframe)))
+    (org-bullets org-cliplink hound org-ref htmlize ox-reveal image+ jinja2-mode speed-type 0blayout malyon string-inflection 2048-game chess mines omni-quotes pacmacs sudoku turing-machine typing landmark org-brain exec-path-from-shell buttercup bpr gtags evil-org evil-indent-textobject evil-surround evil-leader highlight-symbol which-key yaml-mode mmm-mode zenburn-theme color-theme-sanityinc-tomorrow gruvbox-theme sublime-themes web-mode comment-dwim-2 powerline-evil evil powerline ag wgrep-ag wgrep markdown-mode helm-projectile flycheck emmet-mode dictionary counsel helm coffee-mode elpy pug-mode s nov use-package fullframe)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pug-tab-width 2)
  '(recentf-max-menu-items 40)

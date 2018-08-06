@@ -1,6 +1,13 @@
 ;; init-keybindings.el -- Global keybindings
+;;;
+;;; Code: down below
+;;; 
+;;; Commentary:
 
 (define-key global-map (kbd "C-c s") (lambda () (interactive) (ansi-term "zsh")))
+(define-key global-map (kbd "C-x C-f") 'helm-find-files)
+(define-key global-map (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x p i") 'org-cliplink)
 (define-key global-map (kbd "C-M-r") 'eval-buffer)
 (define-key global-map (kbd "<f3>") 'previous-error)
 (define-key global-map (kbd "<f4>") 'next-error)

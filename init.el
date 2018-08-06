@@ -49,6 +49,15 @@
 (eval-when-compile
   (require 'use-package))
 
+(use-package ox-reveal
+  :ensure ox-reveal)
+
+(setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/")
+;; (setq org-reveal-mathjax t)
+
+(use-package htmlize
+  :ensure t)
+
 (use-package nov
   :ensure t
   :config
@@ -396,6 +405,13 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (require 'init-flycheck)
 ;; (require 'gitignore-mode)
 (require 'init-git)
+
+
+(use-package org-bullets
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (use-package evil-org
   :ensure t
