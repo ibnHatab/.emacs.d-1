@@ -526,9 +526,9 @@ The IGNORED argument is... Ignored."
     ad-do-it))
 (ad-activate 'term-sentinel)
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
+;; (when (memq window-system '(mac ns x))
+;;   (exec-path-from-shell-initialize))
+;; fails on ubuntu
 
 (provide 'init)
 ;;; init.el ends here
