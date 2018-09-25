@@ -120,6 +120,38 @@
   :config
   (add-hook 'org-mode-hook 'org-bullets-mode))
 
+(use-package go-playground
+  :ensure t)
+(use-package godoctor
+  :ensure t)
+(use-package go-autocomplete
+  :ensure t)
+(use-package go-errcheck
+  :ensure t)
+(use-package go-eldoc
+  :ensure t)
+(use-package gorepl-mode
+  :ensure t)
+(use-package go-projectile
+  :ensure t)
+
+(use-package go-mode
+  :requires (go-playground go-guru godoctor go-complete go-errcheck go-eldoc gorepl-mode go-projectile)
+  :ensure t
+  :config
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (add-hook 'go-mode-hook (lambda ()
+                            (setq tab-width 4)
+                            (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
+                            (local-set-key (kbd "C-c i") 'go-goto-imports)
+                            (local-set-key (kbd "M-.") 'godef-jump)))
+  (add-hook 'go-mode-hook 'go-eldoc-setup)
+  (add-hook 'completion-at-point-functions 'go-autocomplete-at-point)
+  )
+
+(use-package go-guru
+  :ensure t)
+
 (defun my-go-mode-hook ()
   (add-hook 'before-save-hook 'gofmt-before-save) ; gofmt before every save
   (setq gofmt-command "goimports")                ; gofmt uses invokes goimports
@@ -150,36 +182,7 @@
 
 ;; If the go-guru.el file is in the load path, this will load it.
 (require 'go-guru)
-(use-package go-mode
-  :requires (go-playground go-guru godoctor go-complete go-errcheck go-eldoc gorepl-mode go-projectile go-koans)
-  :ensure t
-  :config
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  (add-hook 'go-mode-hook (lambda ()
-                            (setq tab-width 4)
-                            (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
-                            (local-set-key (kbd "C-c i") 'go-goto-imports)
-                            (local-set-key (kbd "M-.") 'godef-jump)))
-  (add-hook 'go-mode-hook 'go-eldoc-setup)
-  (add-hook 'completion-at-point-functions 'go-autocomplete-at-point)
-  )
 
-(use-package go-playground
-  :ensure t)
-(use-package go-guru
-  :ensure t)
-(use-package godoctor
-  :ensure t)
-(use-package go-autocomplete
-  :ensure t)
-(use-package go-errcheck
-  :ensure t)
-(use-package go-eldoc
-  :ensure t)
-(use-package gorepl-mode
-  :ensure t)
-(use-package go-projectile
-  :ensure t)
 (use-package expand-region
   :ensure t)
 
