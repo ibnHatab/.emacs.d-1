@@ -144,9 +144,11 @@
                             (setq tab-width 4)
                             (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
                             (local-set-key (kbd "C-c i") 'go-goto-imports)
+                            (local-set-key (kbd "M-TAB") 'go-complete-at-point)
+                            (local-set-key (kbd "<C-return>") 'go-run)
                             (local-set-key (kbd "M-.") 'godef-jump)))
   (add-hook 'go-mode-hook 'go-eldoc-setup)
-  (add-hook 'completion-at-point-functions 'go-autocomplete-at-point)
+  (add-hook 'completion-at-point-functions 'go-complete-at-point)
   )
 
 (use-package go-guru
@@ -519,6 +521,18 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (use-package flycheck
   :ensure t
   :commands flycheck-mode)
+
+(use-package popwin
+  :ensure t
+  :config
+  (popwin-mode 1))
+
+(use-package go-direx
+  :ensure t
+  :config
+  (define-key go-mode-map (kbd "C-c C-j") 'go-direx-pop-to-buffer))
+
+
 
 ;;; Flycheck mode
 (add-hook 'flycheck-mode-hook
