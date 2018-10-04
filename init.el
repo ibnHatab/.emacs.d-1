@@ -149,7 +149,7 @@
 
 (defun my-go-mode-hook ()
   (company-mode -1)
-  (yas-minor-mode-on 1)
+  (yas-minor-mode-on)
   (add-hook 'before-save-hook 'gofmt-before-save) ; gofmt before every save
   (setq gofmt-command "goimports")                ; gofmt uses invokes goimports
   (if (not (string-match "go" compile-command))   ; set compile command default
