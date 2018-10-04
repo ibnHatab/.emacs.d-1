@@ -34,8 +34,10 @@
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'exec-path "/usr/local/go/bin")
-(add-to-list 'exec-path "~/.local/go/bin")
+(add-to-list 'exec-path (expand-file-name "~/.local/go/bin"))
 (add-to-list 'exec-path "/usr/bin")
+(setenv "GOPATH" (expand-file-name "~/.local/go"))
+
 
 ;; Take out the trash
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
