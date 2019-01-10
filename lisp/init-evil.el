@@ -22,7 +22,8 @@
    "s"	'ag-project		       ;; Ag search from project's root
    "S"	'delete-trailing-whitespace
    "t"	'gtags-reindex
-   "T"	'gtags-find-tag
+   "T"	'xref-find-definitions
+   "r"  'xref-find-references
    "#"  'server-edit
    "w"	'save-buffer
    "x"	'helm-M-x

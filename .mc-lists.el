@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        c-electric-paren
         evil-append
         evil-backward-char
         evil-delete-backward-char-and-join
@@ -21,5 +22,6 @@
 (setq mc/cmds-to-run-once
       '(
         evil-execute-in-normal-state
+        evil-search-word-backward
         keyboard-escape-quit
         ))

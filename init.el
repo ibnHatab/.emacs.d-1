@@ -332,7 +332,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (when (eq system-type 'darwin)
     (setq ag-executable "/usr/local/bin/ag"))
   (when (eq system-type 'gnu/linux)
-    (setq ag-executable "/usr/bin/ag"))
+    (setq ag-executable "ag"))
   (setq ag-highlight-search t)
   (setq ag-reuse-buffers t)
   (setq ag-reuse-window t))
@@ -491,7 +491,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (use-package writegood-mode
   :ensure t
   :config
-  (add-hook 'org-mode-hook (lambda () (writegood-mode 1))))
+  (add-hook 'org-mode-hook (lambda () (writegood-mode 0))))
 
 (use-package org-bullets
   :ensure t
@@ -616,7 +616,14 @@ The IGNORED argument is... Ignored."
         (kill-buffer buffer))
     ad-do-it))
 (ad-activate 'term-sentinel)
+;; Run C programs directly from within emacs
+(defun execute-c-program ()
+  (interactive)
+  (defvar foo)
+  (setq foo (concat "gcc " (buffer-name) " && ./a.out" ))
+  (shell-command foo))
 
+(global-set-key [C-f1] 'execute-c-program)
 ;; (when (memq window-system '(mac ns x))
 ;;   (exec-path-from-shell-initialize))
 ;; fails on ubuntu
