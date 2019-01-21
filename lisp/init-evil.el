@@ -6,34 +6,34 @@
   "Configure evil leader mode"
   (evil-leader/set-leader ",")
   (evil-leader/set-key
-   ","  'other-window
-   "."  'mode-line-other-buffer
-   ":"  'eval-expression
-   "b"  'helm-mini		       ;; Switch to another buffer
-   "d"	'elpy-goto-definition
-   "k"	'elpy-doc
-   "B"	'magit-blame-toggle
-   "c"	'comment-dwim-2
-   "f"	'helm-imenu
-   "g"	'magit-status
-   "l"	'whitespace-mode	       ;; Show invisible characters
-   "o"	'delete-other-windows	       ;; C-w o
-   "p"	'helm-show-kill-ring
-   "s"	'ag-project		       ;; Ag search from project's root
-   "S"	'delete-trailing-whitespace
-   "t"	'gtags-reindex
-   "T"	'xref-find-definitions
-   "r"  'xref-find-references
-   "#"  'server-edit
-   "w"	'save-buffer
-   "x"	'helm-M-x
-   "y"	'simpleclip-copy)
+    ","  'other-window
+    "."  'mode-line-other-buffer
+    ":"  'eval-expression
+    "b"  'helm-mini		       ;; Switch to another buffer
+    "d"	'elpy-goto-definition
+    "k"	'elpy-doc
+    "B"	'magit-blame-toggle
+    "c"	'comment-dwim-2
+    "f"	'helm-imenu
+    "g"	'magit-status
+    "l"	'whitespace-mode	       ;; Show invisible characters
+    "o"	'delete-other-windows	       ;; C-w o
+    "p"	'helm-show-kill-ring
+    "s"	'ag-project		       ;; Ag search from project's root
+    "S"	'delete-trailing-whitespace
+    "t"	'gtags-reindex
+    "T"	'xref-find-definitions
+    "r"  'xref-find-references
+    "#"  'server-edit
+    "w"	'save-buffer
+    "x"	'helm-M-x
+    "y"	'simpleclip-copy)
 
   (defun magit-blame-toggle ()
     "Toggle magit-blame-mode on and off interactively."
     (interactive)
     (if (and (boundp 'magit-blame-mode) magit-blame-mode)
-	(magit-blame-quit)
+        (magit-blame-quit)
       (call-interactively 'magit-blame))))
 
 (defun g--config-evil ()
@@ -41,19 +41,20 @@
 
   ;; Use Emacs state in these additional modes.
   (dolist (mode '(ag-mode
-	       	  custom-mode
-		  custom-new-theme-mode
-		  dired-mode
-		  eshell-mode
-		  flycheck-error-list-mode
-		  git-rebase-mode
-		  octopress-mode
-		  octopress-server-mode
-		  octopress-process-mode
-		  org-capture-mode
-		  sunshine-mode
-		  nov-mode
-		  term-mode))
+                  custom-mode
+                  custom-new-theme-mode
+                  dired-mode
+                  eshell-mode
+                  flycheck-error-list-mode
+                  git-rebase-mode
+                  octopress-mode
+                  octopress-server-mode
+                  octopress-process-mode
+                  org-capture-mode
+                  sunshine-mode
+                  bm-show-mode
+                  nov-mode
+                  term-mode))
     (add-to-list 'evil-emacs-state-modes mode))
 
   (delete 'term-mode evil-insert-state-modes)
@@ -77,8 +78,8 @@
   (evil-define-key 'normal global-map (kbd "C-p")	'helm-projectile)
   (evil-define-key 'normal global-map (kbd "C-S-p")	'helm-projectile-switch-project)
   (evil-define-key 'normal global-map (kbd "C-`")	(lambda ()
-							(interactive)
-							(dired (expand-file-name "~"))))
+                                                      (interactive)
+                                                      (dired (expand-file-name "~"))))
 
   ;; Try to quit everything with escape
   (define-key evil-normal-state-map [escape] 'keyboard-escape-quit)
