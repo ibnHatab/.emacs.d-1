@@ -45,6 +45,7 @@
 
 (require 'init-utils)
 (require 'init-elpa)
+
 ;; use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -54,10 +55,9 @@
   (require 'use-package))
 
 (use-package ox-reveal
-  :ensure ox-reveal)
-
-(setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/")
-;; (setq org-reveal-mathjax t)
+  :ensure ox-reveal
+  :config
+  (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/"))
 
 (use-package htmlize
   :ensure t)
@@ -66,14 +66,6 @@
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
-
- ;; '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
- ;; '(org-trello-files (quote ("~/org/trello.org")) nil (org-trello))
-;; (use-package org-trello
-;;   :ensure t
-;;   :config
-;;   (custom-set-variables '(org-trello-files '("~/org/trello.org"))
-;;                         '(org-trello-current-prefix-keybinding "C-c o")))
 
 (use-package lua-mode
   :ensure t
@@ -124,16 +116,22 @@
 
 (use-package go-playground
   :ensure t)
+
 (use-package godoctor
   :ensure t)
+
 (use-package go-autocomplete
   :ensure t)
+
 (use-package go-errcheck
   :ensure t)
+
 (use-package go-eldoc
   :ensure t)
+
 (use-package gorepl-mode
   :ensure t)
+
 (use-package go-projectile
   :ensure t)
 
@@ -337,12 +335,8 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (setq ag-reuse-buffers t)
   (setq ag-reuse-window t))
 
-;; (use-package powerline
-;;   :ensure t)
 (use-package evil
   :ensure t)
-;; (use-package powerline-evil
-;;   :ensure t)
 
 (use-package org-brain :ensure t
   :init
@@ -423,25 +417,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (setq magit-last-seen-setup-instructions "1.4.0")
   (magit-define-popup-switch 'magit-log-popup ?f "first parent" "--first-parent"))
 
-(use-package mmm-mode
-  :ensure t
-  :defer t
-  :config
-  (setq mmm-global-mode 'maybe)
-  (mmm-add-classes
-   '((markdown-cl
-      :submode emacs-lisp-mode
-      :face mmm-declaration-submode-face
-      :front "^~~~cl[\n\r]+"
-      :back "^~~~$")
-     (markdown-php
-      :submode php-mode
-      :face mmm-declaration-submode-face
-      :front "^```php[\n\r]+"
-      :back "^```$")))
-  (mmm-add-mode-ext-class 'markdown-mode nil 'markdown-cl)
-(mmm-add-mode-ext-class 'markdown-mode nil 'markdown-php))
-
 (use-package undo-tree
   :ensure t
   :diminish t
@@ -449,44 +424,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-history-directory-alist
 	(list (cons "." (expand-file-name "undo-tree-history" user-emacs-directory)))))
-
-;; (setq tab-stop-list (number-sequence 2 120 2))
-(define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
-(setq-default tab-width 4)
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
-
-
-(use-package markdown-mode
-	     :ensure t)
-
-;; (require 'powerline)
-;; (require 'powerline-evil)
-;; (powerline-default-theme)
-
-;; load theme
-;; (when (eq system-type 'darwin)
-(load-theme 'sanityinc-tomorrow-eighties t)
-;; (when (eq system-type 'gnu/linux)
-  ;; (load-theme 'zenburn t))
-
-(require 'init-platform)
-(require 'init-global)
-(require 'init-keybindings)
-(require 'init-fonts)
-(require 'init-powerline)
-;; (require 'init-gtags)
-(require 'init-evil)
-(require 'init-flycheck)
-;; (require 'gitignore-mode)
-(require 'init-git)
-(require 'init-org)
-
 
 (use-package writegood-mode
   :ensure t
@@ -510,9 +447,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (add-hook 'org-mode-hook 'evil-org-mode)
 
-;; (use-package anaconda-mode
-;;   :ensure t)
-
 (use-package hideshow-org
   :ensure t)
 
@@ -535,6 +469,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :ensure t
   :config
   (define-key go-mode-map (kbd "C-c C-j") 'go-direx-pop-to-buffer))
+
 (use-package bm
   :ensure t
   :demand t
@@ -606,6 +541,34 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
           (lambda ()
             (define-key lisp-interaction-mode-map (kbd "<C-return>") 'eval-last-sexp)))
 (setq nxml-child-indent 4 nxml-attribute-indent 4)
+
+(define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
+(setq-default tab-width 4)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+
+(use-package markdown-mode
+	     :ensure t)
+(load-theme 'sanityinc-tomorrow-eighties t)
+;; (when (eq system-type 'gnu/linux)
+  ;; (load-theme 'zenburn t))
+
+(require 'init-platform)
+(require 'init-global)
+(require 'init-keybindings)
+(require 'init-fonts)
+(require 'init-powerline)
+;; (require 'init-gtags)
+(require 'init-evil)
+(require 'init-flycheck)
+;; (require 'gitignore-mode)
+(require 'init-git)
+(require 'init-org)
 
 ;; (use-package nlinum-relative
 ;;   :ensure t
