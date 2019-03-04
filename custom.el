@@ -7,6 +7,8 @@
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    (vector "#c5c8c6" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#8abeb7" "#373b41"))
+ '(bm-highlight-style (quote bm-highlight-only-fringe))
+ '(clang-format-executable "/usr/bin/clang-format-5.0")
  '(coffee-tab-width 4)
  '(custom-safe-themes
    (quote
@@ -22,20 +24,26 @@
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
- '(org-agenda-files
-   (quote
-    ("~/org/work_status.org" "~/org/gtd/tickler.org" "~/org/gtd/gtd.org" "~/.emacs.d/lisp/init-org.el")))
+ '(org-agenda-files (quote ("~/org/gtd/gtd.org" "~/org/work_status.org")))
  '(org-support-shift-select (quote always))
  '(package-selected-packages
    (quote
-    (org-bullets org-cliplink hound org-ref htmlize ox-reveal image+ jinja2-mode speed-type 0blayout malyon string-inflection 2048-game chess mines omni-quotes pacmacs sudoku turing-machine typing landmark org-brain exec-path-from-shell buttercup bpr gtags evil-org evil-indent-textobject evil-surround evil-leader highlight-symbol which-key yaml-mode mmm-mode zenburn-theme color-theme-sanityinc-tomorrow gruvbox-theme sublime-themes web-mode comment-dwim-2 powerline-evil evil powerline ag wgrep-ag wgrep markdown-mode helm-projectile flycheck emmet-mode dictionary counsel helm coffee-mode elpy pug-mode s nov use-package fullframe)))
+    (ox-pandoc bm go-direx popwin helm-cscope xcscope hideshow-org writegood-mode cmake-font-lock cmake-mode ccls company-lsp lsp-ui clang-format company-irony-c-headers company-irony irony cmake-ide company-c-headers magit-svn org-bullets org-cliplink hound org-ref htmlize ox-reveal image+ jinja2-mode speed-type 0blayout malyon string-inflection 2048-game chess mines omni-quotes pacmacs sudoku turing-machine typing landmark org-brain exec-path-from-shell buttercup bpr gtags evil-org evil-indent-textobject evil-surround evil-leader highlight-symbol which-key yaml-mode mmm-mode zenburn-theme color-theme-sanityinc-tomorrow gruvbox-theme sublime-themes web-mode comment-dwim-2 powerline-evil evil powerline ag wgrep-ag wgrep markdown-mode helm-projectile flycheck emmet-mode dictionary counsel helm coffee-mode elpy pug-mode s nov use-package fullframe)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pug-tab-width 2)
  '(recentf-max-menu-items 40)
  '(recentf-max-saved-items 150)
  '(recentf-mode t)
  '(ring-bell-function (quote ignore))
- '(safe-local-variable-values (quote ((no-byte-compile t))))
+ '(safe-local-variable-values
+   (quote
+    ((eval setq flycheck-clang-include-path
+           (list
+            (expand-file-name "~/home/gnagy/book/ppp/")))
+     (eval setq flycheck-clang-include-path
+           (list
+            (expand-file-name "~/book/ppp/")))
+     (no-byte-compile t))))
  '(save-interprogram-paste-before-kill t)
  '(typescript-indent-level 2)
  '(url-proxy-services
@@ -79,4 +87,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((((class color) (min-colors 16777215)) (:background "#282828" :foreground "#fdf4c1")) (((class color) (min-colors 255)) (:background "#262626" :foreground "#ffffaf"))))
+ '(bm-fringe-persistent-face ((t (:background "dark orange" :foreground "White"))))
+ '(bm-persistent-face ((t (:background "dark orange" :foreground "White"))))
  '(variable-pitch ((t (:height 1.0 :family "Liberation Serif")))))

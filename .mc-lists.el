@@ -7,7 +7,10 @@
         c-electric-lt-gt
         c-electric-paren
         c-electric-semi&comma
+        elpy-nav-backward-indent
+        elpy-nav-forward-indent
         evil-append
+        evil-append-line
         evil-backward-char
         evil-delete-backward-char-and-join
         evil-delete-char
@@ -27,5 +30,6 @@
       '(
         evil-execute-in-normal-state
         evil-search-word-backward
+        helm-mini
         keyboard-escape-quit
         ))

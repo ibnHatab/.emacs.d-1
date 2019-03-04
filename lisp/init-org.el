@@ -33,6 +33,6 @@
                                (file+headline "~/org/gtd/tickler.org" "Tickler")
                                "* %i%? \n %U")))
 
-(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "REVIEWING(r)" "NEXT(n)" "|" "DONE(d)" "CANCELLED(c)")))
 
 (provide 'init-org)

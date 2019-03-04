@@ -15,6 +15,7 @@
 (define-key global-map (kbd "H-<right>") 'next-error)
 (define-key global-map (kbd "C-}") 'air-cycle-theme)
 (define-key global-map (kbd "C-{") 'cycle-powerline-separators)
+(define-key global-map (kbd "M-\\") 'shell-command-on-region)
 
 (define-key global-map (kbd "H-g") 'gomoku)
 (define-key global-map (kbd "H-m") 'mines)
