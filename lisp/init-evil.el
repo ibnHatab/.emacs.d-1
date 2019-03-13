@@ -47,6 +47,7 @@
                   eshell-mode
                   flycheck-error-list-mode
                   git-rebase-mode
+                  special-mode
                   octopress-mode
                   octopress-server-mode
                   octopress-process-mode

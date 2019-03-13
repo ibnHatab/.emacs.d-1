@@ -30,22 +30,10 @@
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(org-agenda-files (quote ("~/org/gtd/gtd.org" "~/org/work_status.org")))
- '(org-structure-template-alist
-   (quote
-    (("a" . "export ascii")
-     ("c" . "center")
-     ("C" . "comment")
-     ("e" . "example")
-     ("E" . "export")
-     ("h" . "export html")
-     ("l" . "export latex")
-     ("q" . "quote")
-     ("s" . "src")
-     ("v" . "verse"))))
  '(org-support-shift-select (quote always))
  '(package-selected-packages
    (quote
-    (slime ox-pandoc bm go-direx popwin helm-cscope xcscope hideshow-org writegood-mode cmake-font-lock cmake-mode ccls company-lsp lsp-ui clang-format company-irony-c-headers company-irony irony cmake-ide company-c-headers magit-svn org-bullets org-cliplink hound org-ref htmlize ox-reveal image+ jinja2-mode speed-type 0blayout malyon string-inflection 2048-game chess mines omni-quotes pacmacs sudoku turing-machine typing landmark org-brain exec-path-from-shell buttercup bpr gtags evil-org evil-indent-textobject evil-surround evil-leader highlight-symbol which-key yaml-mode mmm-mode zenburn-theme color-theme-sanityinc-tomorrow gruvbox-theme sublime-themes web-mode comment-dwim-2 powerline-evil evil powerline ag wgrep-ag wgrep markdown-mode helm-projectile flycheck emmet-mode dictionary counsel helm coffee-mode elpy pug-mode s nov use-package fullframe)))
+    (slime ox-pandoc bm go-direx popwin helm-cscope xcscope hideshow-org writegood-mode cmake-font-lock cmake-mode ccls company-lsp lsp-ui clang-format company-irony-c-headers company-irony irony cmake-ide company-c-headers magit-svn org-bullets org-cliplink hound org-ref htmlize image+ jinja2-mode speed-type 0blayout malyon string-inflection 2048-game chess mines omni-quotes pacmacs sudoku turing-machine typing landmark org-brain exec-path-from-shell buttercup bpr gtags evil-org evil-indent-textobject evil-surround evil-leader highlight-symbol which-key yaml-mode mmm-mode zenburn-theme color-theme-sanityinc-tomorrow gruvbox-theme sublime-themes web-mode comment-dwim-2 powerline-evil evil powerline ag wgrep-ag wgrep markdown-mode helm-projectile flycheck emmet-mode dictionary counsel helm coffee-mode elpy pug-mode s nov use-package fullframe)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pug-tab-width 2)
  '(recentf-max-menu-items 40)
