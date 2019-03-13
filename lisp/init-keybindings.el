@@ -6,7 +6,6 @@
 
 (define-key global-map (kbd "C-c s") (lambda () (interactive) (ansi-term "zsh")))
 (define-key global-map (kbd "C-x C-f") 'helm-find-files)
-(define-key global-map (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x p i") 'org-cliplink)
 (define-key global-map (kbd "C-M-r") 'eval-buffer)
 (define-key global-map (kbd "<f3>") 'previous-error)
@@ -24,6 +23,11 @@
 (define-key global-map (kbd "H-t") 'tetris)
 (define-key global-map (kbd "H-]") 'studlify-buffer)
 (define-key global-map (kbd "H-[") 'nato-region)
+
+(define-key global-map (kbd "C-x <up>") 'windmove-up)
+(define-key global-map (kbd "C-x <down>") 'windmove-down)
+(define-key global-map (kbd "C-x <left>") 'windmove-left)
+(define-key global-map (kbd "C-x <right>") 'windmove-right)
 
 (evil-define-key 'insert global-map (kbd "H-v") 'yank)
 (evil-define-key 'insert global-map (kbd "H-x") 'kill-region)

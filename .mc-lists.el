@@ -7,6 +7,7 @@
         c-electric-lt-gt
         c-electric-paren
         c-electric-semi&comma
+        downcase-region
         elpy-nav-backward-indent
         elpy-nav-forward-indent
         evil-append
@@ -14,11 +15,13 @@
         evil-backward-char
         evil-delete-backward-char-and-join
         evil-delete-char
+        evil-end-of-line
         evil-forward-char
         evil-insert
         evil-next-line
         evil-normal-state
         evil-previous-line
+        evil-search-forward
         evil-yank
         mouse-yank-primary
         org-self-insert-command

@@ -4,12 +4,12 @@
 
 (defun g--config-evil-leader ()
   "Configure evil leader mode"
-  (evil-leader/set-leader ",")
+  (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
-    ","  'other-window
-    "."  'mode-line-other-buffer
-    ":"  'eval-expression
-    "b"  'helm-mini		       ;; Switch to another buffer
+    "," 'other-window
+    "." 'mode-line-other-buffer        ;
+    ":" 'eval-expression
+    "b" 'helm-mini		       ;; Switch to another buffer
     "d"	'elpy-goto-definition
     "k"	'elpy-doc
     "B"	'magit-blame-toggle
@@ -23,10 +23,10 @@
     "S"	'delete-trailing-whitespace
     "t"	'gtags-reindex
     "T"	'xref-find-definitions
-    "r"  'xref-find-references
-    "#"  'server-edit
+    "r" 'xref-find-references
+    "#" 'server-edit
     "w"	'save-buffer
-    "x"	'helm-M-x
+    "<SPC>"	'helm-M-x
     "y"	'simpleclip-copy)
 
   (defun magit-blame-toggle ()
@@ -34,7 +34,7 @@
     (interactive)
     (if (and (boundp 'magit-blame-mode) magit-blame-mode)
         (magit-blame-quit)
-      (call-interactively 'magit-blame))))
+        (call-interactively 'magit-blame))))
 
 (defun g--config-evil ()
   "Configure evil mode"

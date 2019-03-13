@@ -7,6 +7,8 @@
 (with-eval-after-load 'org
   (org-babel-do-load-languages 'org-babel-load-languages '((python . t) (ruby . t) (shell . t))))
 
+(require 'org-tempo)
+
 (setq org-agenda-files '("~/org/gtd/inbox.org"
                          "~/org/gtd/gtd.org"
                          "~/org/work_status.org"

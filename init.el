@@ -50,8 +50,8 @@
 (eval-when-compile
   (require 'use-package))
 
-(use-package ox-reveal
-  :ensure ox-reveal
+(use-package org-re-reveal
+  :ensure t
   :config
   (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/"))
 
@@ -206,6 +206,9 @@
   :ensure t
   :config
   (custom-set-variables '(coffee-tab-width 4)))
+
+(use-package all-the-icons
+  :ensure t)
 
 (use-package helm
   :ensure t
@@ -669,8 +672,10 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;;; Python mode:
 ;; (add-hook 'python-mode-hook 'anaconda-mode
 (add-hook 'elpy-mode-hook #'hs-minor-mode)
+
 (add-hook 'python-mode-hook 'hs-minor-mode
 	  (lambda ()
+        (flycheck-mode -1)
 	    (setq indent-tabs-mode nil)
 	    (setq tab-width 4)
 	    (setq python-indent-offset 4))
