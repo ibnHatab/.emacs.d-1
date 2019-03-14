@@ -1,7 +1,7 @@
 ;; init-keybindings.el -- Global keybindings
 ;;;
 ;;; Code: down below
-;;; 
+;;;
 ;;; Commentary:
 
 (define-key global-map (kbd "C-c s") (lambda () (interactive) (ansi-term "zsh")))
@@ -28,10 +28,6 @@
 (define-key global-map (kbd "C-x <down>") 'windmove-down)
 (define-key global-map (kbd "C-x <left>") 'windmove-left)
 (define-key global-map (kbd "C-x <right>") 'windmove-right)
-
-(evil-define-key 'insert global-map (kbd "H-v") 'yank)
-(evil-define-key 'insert global-map (kbd "H-x") 'kill-region)
-(evil-define-key 'insert global-map (kbd "H-c") 'kill-ring-save)
 
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here

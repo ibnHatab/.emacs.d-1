@@ -55,3 +55,6 @@ nov-places
 # web mode
 /request
 /url
+
+# bm mode
+bm-repository

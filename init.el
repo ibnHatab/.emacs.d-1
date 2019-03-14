@@ -29,10 +29,7 @@
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (add-to-list 'exec-path "/usr/local/bin")
-(add-to-list 'exec-path "/usr/local/go/bin")
-(add-to-list 'exec-path (expand-file-name "~/.local/go/bin"))
 (add-to-list 'exec-path "/usr/bin")
-(setenv "GOPATH" (expand-file-name "~/.local/go"))
 
 
 ;; Take out the trash
@@ -49,14 +46,6 @@
 
 (eval-when-compile
   (require 'use-package))
-
-(use-package org-re-reveal
-  :ensure t
-  :config
-  (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/"))
-
-(use-package htmlize
-  :ensure t)
 
 (use-package nov
   :ensure t
@@ -102,97 +91,8 @@
 
 (use-package dash :ensure t)
 
-(use-package py-yapf :ensure t)
-
-(use-package org-bullets
-  :after org
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook 'org-bullets-mode))
-
-(use-package go-playground
-  :ensure t)
-
-(use-package godoctor
-  :ensure t)
-
-(use-package go-autocomplete
-  :ensure t)
-
-(use-package go-errcheck
-  :ensure t)
-
-(use-package go-eldoc
-  :ensure t)
-
-(use-package gorepl-mode
-  :ensure t)
-
-(use-package go-projectile
-  :ensure t)
-
-(use-package go-mode
-  :requires (go-playground go-guru godoctor go-complete go-errcheck go-eldoc gorepl-mode go-projectile)
-  :ensure t
-  :config
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  (add-hook 'go-mode-hook 'go-eldoc-setup)
-  (add-hook 'completion-at-point-functions 'go-complete-at-point)
-  )
-
-(use-package go-guru
-  :ensure t)
-
-(defun my-go-mode-hook ()
-  (company-mode -1)
-  (yas-minor-mode-on)
-  (add-hook 'before-save-hook 'gofmt-before-save) ; gofmt before every save
-  (setq gofmt-command "goimports")                ; gofmt uses invokes goimports
-  (if (not (string-match "go" compile-command))   ; set compile command default
-      (set (make-local-variable 'compile-command)
-           "go build -v && go test -v && go vet"))
-
-  ;; guru settings
-  (go-guru-hl-identifier-mode)                    ; highlight identifiers
-
-  ;; Key bindings specific to go-mode
-  (local-set-key (kbd "M-*") 'pop-tag-mark)       ; Return from whence you came
-  (local-set-key (kbd "M-p") 'compile)            ; Invoke compiler
-  (evil-leader/set-key "d" 'godef-jump)
-  (evil-leader/set-key "k" 'godoc-at-point)
-  (evil-leader/set-key "j" 'go-direx-pop-to-buffer)
-  (evil-leader/set-key "a" 'go-import-add)
-  (local-set-key (kbd "M-P") 'recompile)          ; Redo most recent compile cmd
-  (local-set-key (kbd "M-]") 'next-error)         ; Go to next error (or msg)
-  (local-set-key (kbd "M-[") 'previous-error)     ; Go to previous error or msg
-  (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
-  (local-set-key (kbd "C-c i") 'go-goto-imports)
-  (local-set-key (kbd "<C-tab>") 'auto-complete)
-  (local-set-key (kbd "<C-return>") 'go-run)
-
-  ;; Misc go stuff
-  (auto-complete-mode 1))                         ; Enable auto-complete mode
-
-;; Connect go-mode-hook with the function we just defined
-(add-hook 'go-mode-hook 'my-go-mode-hook)
-
-;; Ensure the go specific autocomplete is active in go-mode.
-(with-eval-after-load 'go-mode
-   (require 'go-autocomplete))
-
-;; If the go-guru.el file is in the load path, this will load it.
-(require 'go-guru)
-
 (use-package expand-region
   :ensure t)
-
-(use-package elpy
-  :ensure t
-  :config
-  (setq python-shell-interpreter "ipython"
-    python-shell-interpreter-args "-i --simple-prompt")
-  (setq python-shell-completion-native-enable nil)
-  (elpy-enable))
 
 (use-package multiple-cursors
   :ensure t
@@ -206,9 +106,6 @@
   :ensure t
   :config
   (custom-set-variables '(coffee-tab-width 4)))
-
-(use-package all-the-icons
-  :ensure t)
 
 (use-package helm
   :ensure t
@@ -246,8 +143,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
       (duplicates t)))
   (add-to-list 'company-backends 'org-keyword-backend)
 
-  (add-to-list 'company-backends 'company-c-headers)
-
   (setq company-idle-delay 0.2)
   (setq company-selection-wrap-around t)
   (define-key company-active-map (kbd "ESC") 'company-abort)
@@ -271,10 +166,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (use-package emmet-mode
   :ensure t
   :commands emmet-mode)
-
-(use-package flycheck
-  :ensure t
-  :commands flycheck-mode)
 
 (use-package gist
   :ensure t)
@@ -337,24 +228,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (setq ag-highlight-search t)
   (setq ag-reuse-buffers t)
   (setq ag-reuse-window t))
-
-(use-package evil
-  :ensure t)
-
-(use-package org-brain :ensure t
-  :init
-  (setq org-brain-path "~/org/brain")
-  ;; For Evil users
-  ;; (eval-after-load 'evil
-  ;;   (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
-  :config
-  (setq org-id-track-globally t)
-  (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
-  ;; (push '("b" "Brain" plain (function org-brain-goto-end)
-  ;;         "* %i%?" :empty-lines 1))
-        ;; org-capture-templates)
-  (setq org-brain-visualize-default-choices 'all)
-  (setq org-brain-title-max-length 12))
 
 (use-package comment-dwim-2
   :ensure t)
@@ -433,45 +306,10 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :config
   (add-hook 'org-mode-hook (lambda () (writegood-mode 0))))
 
-(use-package org-bullets
-  :ensure t
-  :after org
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-(use-package evil-org
-  :ensure t
-  :after org
-  :config
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading)))))
-
-(add-hook 'org-mode-hook 'evil-org-mode)
-
-(use-package hideshow-org
-  :ensure t)
-
-(use-package xcscope
-  :ensure t)
-
-(use-package helm-cscope
-  :ensure t)
-
-(use-package flycheck
-  :ensure t
-  :commands flycheck-mode)
-
 (use-package popwin
   :ensure t
   :config
   (popwin-mode 1))
-
-(use-package go-direx
-  :ensure t
-  :config
-  (define-key go-mode-map (kbd "C-c C-j") 'go-direx-pop-to-buffer))
 
 (use-package bm
   :ensure t
@@ -533,19 +371,12 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
          ("C-<f2>" . bm-toggle))
   )
 
-
-;;; Flycheck mode
-(add-hook 'flycheck-mode-hook
-      (lambda ()
-        (evil-define-key 'normal flycheck-mode-map (kbd "]e") 'flycheck-next-error)
-        (evil-define-key 'normal flycheck-mode-map (kbd "[e") 'flycheck-previous-error)))
 ;;; Lisp interaction mode & Emacs Lisp mode:
 (add-hook 'lisp-interaction-mode-hook
           (lambda ()
             (define-key lisp-interaction-mode-map (kbd "<C-return>") 'eval-last-sexp)))
 (setq nxml-child-indent 4 nxml-attribute-indent 4)
 
-(define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
 (setq-default tab-width 4)
 
 (unless (package-installed-p 'use-package)
@@ -566,19 +397,13 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (require 'init-keybindings)
 (require 'init-fonts)
 (require 'init-powerline)
-;; (require 'init-gtags)
 (require 'init-evil)
 (require 'init-flycheck)
-;; (require 'gitignore-mode)
 (require 'init-git)
 (require 'init-org)
-
-;; (use-package nlinum-relative
-;;   :ensure t
-;;   :config
-;;   (nlinum-relative-setup-evil)
-;;   (setq nlinum-relative-redisplay-delay 0)
-;;   (add-hook 'prog-mode-hook #'nlinum-relative-mode))
+(require 'init-go)
+(require 'init-python)
+(require 'init-cpp)
 
 (use-package lsp-mode
   :hook (prog-mode . lsp))
@@ -587,115 +412,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :ensure t)
 (use-package company-lsp
   :ensure t)
-
-(use-package ccls
-  :after projectile
-  :ensure t
-  ;; :ensure-system-package ccls
-  :custom
-  (ccls-args nil)
-  (ccls-executable (executable-find "ccls"))
-  (projectile-project-root-files-top-down-recurring
-   (append '("compile_commands.json" ".ccls")
-           projectile-project-root-files-top-down-recurring))
-  :config (push ".ccls-cache" projectile-globally-ignored-directories))
-
-(use-package cmake-mode
-  :ensure t
-  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
-
-(use-package cmake-font-lock
-  :ensure t
-  :after (cmake-mode)
-  :hook (cmake-mode . cmake-font-lock-activate))
-
-(use-package cmake-ide
-  :ensure t
-  :hook (c++-mode . my/cmake-ide-find-project)
-  :preface
-  (defun my/cmake-ide-find-project ()
-    "Finds the directory of the project for cmake-ide."
-    (with-eval-after-load 'projectile
-      (setq cmake-ide-project-dir (projectile-project-root))
-      (setq cmake-ide-build-dir (concat cmake-ide-project-dir "build")))
-    (setq cmake-ide-compile-command (concat "cd " cmake-ide-build-dir " && make"))
-    (cmake-ide-load-db))
-  :bind ([remap comment-region] . cmake-ide-compile)
-  :init
-  (use-package semantic/bovine/gcc)
-  (setq cmake-ide-flags-c++ (append '("-std=c++11")
-                                    (mapcar (lambda (path) (concat "-I" path)) (semantic-gcc-get-include-paths "c++"))))
-  (setq cmake-ide-flags-c (append (mapcar (lambda (path) (concat "-I" path)) (semantic-gcc-get-include-paths "c"))))
-  (cmake-ide-setup)
-  :config
-  (put 'cmake-ide-build-dir 'safe-local-variable #'stringp))
-
-(use-package clang-format
-  :ensure t
-  :init
-  (defun clang-format-buffer-smart ()
-  "Reformat buffer if .clang-format exists in the projectile root."
-  (when (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
-    (clang-format-buffer))))
-
-;; (use-package irony
-;;   :ensure t
-;;   :config
-;;   (use-package company-irony
-;;     :ensure t
-;;     :config
-;;     (add-to-list 'company-backends 'company-irony))
-;;   (use-package company-irony-c-headers
-;;     :ensure t
-;;     :config
-;;     (add-to-list 'company-backends 'company-irony-c-headers))
-;;   (add-hook 'c++-mode-hook 'irony-mode)
-;;   (add-hook 'c-mode-hook 'irony-mode)
-;;   (add-hook 'objc-mode-hook 'irony-mode)
-;;   ;; replace the `completion-at-point' and `complete-symbol' bindings in
-;;   ;; irony-mode's buffers by irony-mode's function
-;;   (defun my-irony-mode-hook ()
-;;     (define-key irony-mode-map [remap completion-at-point]
-;;       'irony-completion-at-point-async)
-;;     (define-key irony-mode-map [remap complete-symbol]
-;;       'irony-completion-at-point-async))
-;;   (add-hook 'irony-mode-hook 'my-irony-mode-hook)
-;;   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
-
-(defun my-c++-mode-hook ()
-  (c-set-style "stroustrup")
-  (add-hook 'before-save-hook 'clang-format-buffer-smart nil 'local))
-  ;; (auto-fill-mode))
-  ;; (c-toggle-auto-hungry-state 1))
-(add-hook 'c++-mode-hook 'my-c++-mode-hook)
-(add-hook 'c++-mode-hook 'hs-minor-mode)
-;;; Python mode:
-;; (add-hook 'python-mode-hook 'anaconda-mode
-(add-hook 'elpy-mode-hook #'hs-minor-mode)
-
-(add-hook 'python-mode-hook 'hs-minor-mode
-	  (lambda ()
-        (flycheck-mode -1)
-	    (setq indent-tabs-mode nil)
-	    (setq tab-width 4)
-	    (setq python-indent-offset 4))
-          (lambda ()
-            ;; I'm rudely redefining this function to do a comparison of `point'
-            ;; to the end marker of the `comint-last-prompt' because the original
-            ;; method of using `looking-back' to match the prompt was never
-            ;; matching, which hangs the shell startup forever.
-            (defun python-shell-accept-process-output (process &optional timeout regexp)
-              "Redefined to actually work."
-              (let ((regexp (or regexp comint-prompt-regexp)))
-                (catch 'found
-                  (while t
-                    (when (not (accept-process-output process timeout))
-                      (throw 'found nil))
-                    (when (= (point) (cdr (python-util-comint-last-prompt)))
-                      (throw 'found t))))))
-
-            ;; Additional settings follow.
-            (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
 ;;; The Emacs Shell
 (defun company-eshell-history (command &optional arg &rest ignored)

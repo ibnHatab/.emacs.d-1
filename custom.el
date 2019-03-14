@@ -51,11 +51,6 @@
      (no-byte-compile t))))
  '(save-interprogram-paste-before-kill t)
  '(typescript-indent-level 2)
- '(url-proxy-services
-   (quote
-    (("https" . "135.245.192.7:8000")
-     ("no_proxy" . "\\(0\\.0\\.0\\.0\\|127\\.0\\.0\\.1\\|localhost\\|.*\\.cnn\\.com\\|192\\.168\\.1\\.10\\|domain\\.com:8080\\)")
-     ("http" . "135.245.192.7:8000"))))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote

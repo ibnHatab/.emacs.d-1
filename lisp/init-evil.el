@@ -82,6 +82,8 @@
                                                       (interactive)
                                                       (dired (expand-file-name "~"))))
 
+  (define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
+
   ;; Try to quit everything with escape
   (define-key evil-normal-state-map [escape] 'keyboard-escape-quit)
   (define-key evil-visual-state-map [escape] 'keyboard-quit)
