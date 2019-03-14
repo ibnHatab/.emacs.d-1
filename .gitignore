@@ -55,6 +55,3 @@ nov-places
 # web mode
 /request
 /url
-
-# trello
-.trello/gabuscus.el
