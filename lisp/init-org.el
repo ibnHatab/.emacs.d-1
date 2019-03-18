@@ -50,6 +50,8 @@
 (with-eval-after-load 'org
   (org-babel-do-load-languages 'org-babel-load-languages '((python . t) (ruby . t) (shell . t))))
 
+(setq org-confirm-babel-evaluate nil)
+
 (when (version< "9.1.4" (org-version))
   (add-to-list 'org-modules 'org-tempo))
 
