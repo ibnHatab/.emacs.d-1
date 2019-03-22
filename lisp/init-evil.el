@@ -4,7 +4,7 @@
 
 (defun g--config-evil-leader ()
   "Configure evil leader mode"
-  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-leader ",")
   (evil-leader/set-key
     "," 'other-window
     "." 'mode-line-other-buffer        ;
@@ -26,7 +26,7 @@
     "r" 'xref-find-references
     "#" 'server-edit
     "w"	'save-buffer
-    "<SPC>"	'helm-M-x
+    "x"	'helm-M-x
     "y"	'simpleclip-copy)
 
   (defun magit-blame-toggle ()
@@ -71,8 +71,6 @@
     (kbd "/")		'evil-search-forward
     (kbd "n")		'evil-search-next
     (kbd "N")		'evil-search-previous
-    (kbd "C-d")	'evil-scroll-down
-    (kbd "C-u")	'evil-scroll-up
     (kbd "C-w C-w")	'other-window)
 
   ;; Global bindings

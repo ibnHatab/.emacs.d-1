@@ -5,10 +5,11 @@
 ;;; Commentary: org-mode dependent configuration and packages
 
 ;; Begin org-mode related packages
+
 (use-package org-re-reveal
   :ensure t
   :config
-  (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/"))
+  (setq org-re-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/"))
 
 (use-package htmlize
   :ensure t)
@@ -48,7 +49,7 @@
 ;; End org-mode related packages
 
 (with-eval-after-load 'org
-  (org-babel-do-load-languages 'org-babel-load-languages '((python . t) (ruby . t) (shell . t))))
+  (org-babel-do-load-languages 'org-babel-load-languages '((python . t) (ruby . t) (shell . t) (C . t))))
 
 (setq org-confirm-babel-evaluate nil)
 

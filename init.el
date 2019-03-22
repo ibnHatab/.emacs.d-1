@@ -273,8 +273,10 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (use-package projectile
   :ensure t
   :defer 1
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
   :config
-  (projectile-global-mode)
+  (projectile-mode +1)
   (setq projectile-enable-caching t))
 
 (use-package highlight-symbol
