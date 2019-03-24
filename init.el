@@ -255,14 +255,36 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :ensure t
   :defer t
   :config
+  (yas-global-mode t)
+  ;; (define-key yas-minor-mode-map (kbd "<tab>") #'yas-expand)
+  ;; (define-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
+  (with-eval-after-load 'yasnippet
+    (setq yas-snippet-dirs '(yasnippet-snippets-dir)))
+
+  ;; Add yasnippet support for all company backends
+  ;; https://github.com/syl20bnr/spacemacs/pull/179
+  (defvar company-mode/enable-yas t
+    "Enable yasnippet for all backends.")
+
+  (defun company-mode/backend-with-yas (backend)
+    (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+        backend
+      (append (if (consp backend) backend (list backend))
+              '(:with company-yasnippet))))
+
+  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
   (yas-reload-all)
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"
-                           "~/.emacs.d/remote-snippets"))
+  ;; (setq yas-snippet-dirs '("~/.emacs.d/snippets"
+  ;;                          "~/.emacs.d/remote-snippets"))
   (setq tab-always-indent 'complete)
   (setq yas-prompt-functions '(yas-completing-prompt
                                yas-ido-prompt
                                yas-dropdown-prompt))
   (define-key yas-minor-mode-map (kbd "<escape>") 'yas-exit-snippet))
+
+(use-package yasnippet-snippets
+  :ensure t
+  :defer t)
 
 (use-package which-key
   :ensure t
