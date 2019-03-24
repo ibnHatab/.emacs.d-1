@@ -291,9 +291,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :defer t
   :config
   (setq magit-branch-arguments nil)
-  (setq magit-push-always-verify nil)
-  (setq magit-last-seen-setup-instructions "1.4.0")
-  (magit-define-popup-switch 'magit-log-popup ?f "first parent" "--first-parent"))
+  (setq magit-push-always-verify nil))
 
 (use-package undo-tree
   :ensure t
