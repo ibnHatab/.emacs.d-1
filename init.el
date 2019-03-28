@@ -59,6 +59,10 @@
   (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
   (add-to-list 'interpreter-mode-alist '("lua" . lua-mode)))
 
+(use-package protobuf-mode
+  :ensure t
+  :defer t)
+
 (use-package s
   :ensure t
   :defer 1)
