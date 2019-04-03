@@ -20,6 +20,9 @@
   :config
   (add-hook 'org-mode-hook 'org-bullets-mode))
 
+(use-package org-pomodoro
+  :bind ("C-x C-p" . org-pomodoro)
+  :ensure t)
 
 (use-package evil-org
   :ensure t
