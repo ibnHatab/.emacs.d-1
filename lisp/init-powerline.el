@@ -86,6 +86,12 @@
 
 (use-package powerline-evil
   :ensure t)
+(use-package nyan-mode
+  :ensure t
+  :defer t
+  :init
+  (progn
+(nyan-mode 1)))
 
 (use-package window-numbering
   :ensure t
