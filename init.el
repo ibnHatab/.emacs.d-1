@@ -444,6 +444,29 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (use-package company-lsp
   :ensure t)
 
+(use-package neotree
+  :ensure t
+  :bind (("<backtab>" . neotree-toggle))
+  :defer
+  :config
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+    (evil-set-initial-state 'neotree-mode 'normal)
+    (evil-define-key 'normal neotree-mode-map
+      (kbd "RET") 'neotree-enter
+      (kbd "TAB") 'neotree-quick-look
+      (kbd "c")   'neotree-create-node
+      (kbd "r")   'neotree-rename-node
+      (kbd "d")   'neotree-delete-node
+      (kbd "j")   'neotree-next-line
+      (kbd "k")   'neotree-previous-line
+      (kbd "g")   'neotree-refresh
+      (kbd "C")   'neotree-change-root
+      (kbd "I")   'neotree-hidden-file-toggle
+      (kbd "H")   'neotree-hidden-file-toggle
+      (kbd "q")   'neotree-hide
+      (kbd "l")   'neotree-enter
+))
+
 ;;; The Emacs Shell
 (defun company-eshell-history (command &optional arg &rest ignored)
   "Complete from shell history when starting a new line.
