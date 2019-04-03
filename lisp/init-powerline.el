@@ -30,5 +30,8 @@
   (progn
 (window-numbering-mode t)))
 
+(use-package all-the-icons
+  :ensure t)
+
 (provide 'init-powerline)
 ;;; init-powerline.el ends here
