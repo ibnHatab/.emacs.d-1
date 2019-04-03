@@ -11,6 +11,7 @@
   (progn
     (require 'spaceline-config)
     (setq powerline-height '20)
+    (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
     (setq spaceline-workspace-numbers-unicode t)
     (setq spaceline-window-numbers-unicode t)
     (setq powerline-default-separator 'zigzag)
