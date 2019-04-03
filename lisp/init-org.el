@@ -47,7 +47,7 @@
 
 (setq gtd-file "~/org/gtd.org")
 (setq work-status-file "~/org/work_status.org")
-(setq org-agenda-files '(gtd-file work-status-file))
+(setq org-agenda-files `(,gtd-file ,work-status-file))
 
 (global-set-key (kbd "C-c o")
                 (lambda () (interactive) (find-file gtd-file)))
