@@ -52,6 +52,10 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
+(use-package diminish
+  :ensure t
+  :defer t)
+
 (use-package lua-mode
   :ensure t
   :config
@@ -322,7 +326,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (use-package undo-tree
   :ensure t
-  :diminish t
+  :diminish undo-tree-mode
   :config
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-history-directory-alist
