@@ -87,5 +87,11 @@
 (use-package powerline-evil
   :ensure t)
 
+(use-package window-numbering
+  :ensure t
+  :init
+  (progn
+(window-numbering-mode t)))
+
 (provide 'init-powerline)
 ;;; init-powerline.el ends here
