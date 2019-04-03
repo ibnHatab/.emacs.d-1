@@ -55,8 +55,6 @@
                 (lambda () (interactive) (find-file work-status-file)))
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c <up>") 'org-timestamp-up-day)
-(global-set-key (kbd "C-c <down>") 'org-timestamp-down-day)
 
 (setq org-default-notes-file gtd-file)
 
