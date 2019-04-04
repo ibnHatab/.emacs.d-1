@@ -48,9 +48,6 @@
                   flycheck-error-list-mode
                   git-rebase-mode
                   special-mode
-                  octopress-mode
-                  octopress-server-mode
-                  octopress-process-mode
                   org-capture-mode
                   sunshine-mode
                   bm-show-mode
