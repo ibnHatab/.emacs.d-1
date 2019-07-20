@@ -23,6 +23,7 @@
         evil-previous-line
         evil-search-forward
         evil-yank
+        forward-sexp
         mouse-yank-primary
         org-self-insert-command
         yaml-electric-backspace

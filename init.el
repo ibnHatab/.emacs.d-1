@@ -27,7 +27,6 @@
 		 (not (string-suffix-p "." filename)))
 	(add-to-list 'load-path (car file))))))
 
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'exec-path "/usr/bin")
 
@@ -56,13 +55,6 @@
   :ensure t
   :defer t)
 
-(use-package lua-mode
-  :ensure t
-  :config
-  (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-  (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-  (add-to-list 'interpreter-mode-alist '("lua" . lua-mode)))
-
 (use-package protobuf-mode
   :ensure t
   :defer t)
@@ -70,32 +62,6 @@
 (use-package s
   :ensure t
   :defer 1)
-
-(use-package tide :ensure t
-  :config
-  (defun setup-tide-mode ()
-    (interactive)
-    (tide-setup)
-    (flycheck-mode +1)
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
-    (eldoc-mode +1)
-    (tide-hl-identifier-mode +1)
-    ;; company is an optional dependency. You have to
-    ;; install it separately via package-install
-    ;; `M-x package-install [ret] company`
-    (company-mode +1))
-
-  ;; aligns annotation to the right hand side
-  (setq company-tooltip-align-annotations t)
-
-  ;; formats the buffer before saving
-  (add-hook 'before-save-hook 'tide-format-before-save)
-
-  (add-hook 'typescript-mode-hook #'setup-tide-mode))
-
-(use-package pug-mode :ensure t
-  :config
-  (custom-set-variables '(pug-tab-width 2)))
 
 (use-package dash :ensure t)
 
@@ -110,22 +76,37 @@
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
-(use-package coffee-mode
-  :ensure t
-  :config
-  (custom-set-variables '(coffee-tab-width 4)))
-
 (use-package helm
   :ensure t
   :diminish helm-mode
   :commands helm-mode
   :config
   (helm-mode 1)
+  (setq helm-mini-default-sources
+      '(helm-source-buffers-list
+        helm-source-bookmarks
+        helm-source-recentf
+        helm-source-buffer-not-found))
   (setq helm-buffers-fuzzy-matching t)
   (setq helm-autoresize-mode t)
   (setq helm-buffer-max-length 40)
+  (setq helm-mode-fuzzy-match t)
+  (setq helm-completion-in-region-fuzzy-match t)
+  (setq helm-candidate-number-limit 100)
+  (setq-default
+   helm-recentf-fuzzy-match 't
+   helm-buffers-fuzzy-match 't
+   helm-locate-fuzzy-match 't
+   helm-M-x-fuzzy-match 't
+   helm-imenu-fuzzy-match 't
+   helm-apropos-fuzzy-match 't
+   helm-lisp-completion-at-point 't
+   helm-semantic-fuzzy-match t
+   helm-imenu-fuzzy-match t
+   )
   (define-key helm-map (kbd "S-SPC") 'helm-toggle-visible-mark)
   (define-key helm-find-files-map (kbd "C-k") 'helm-find-files-up-one-level))
+
 
 (use-package company
   :ensure t
@@ -172,10 +153,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (use-package dictionary :ensure t)
 
-(use-package emmet-mode
-  :ensure t
-  :commands emmet-mode)
-
 (use-package gist
   :ensure t)
 
@@ -183,39 +160,10 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :commands (helm-projectile helm-projectile-switch-project)
   :ensure t)
 
-(use-package markdown-mode
-  :ensure t
-  :mode "\\.md\\'"
-  :config
-  (setq markdown-command "pandoc --from markdown_github-hard_line_breaks --to html")
-  (define-key markdown-mode-map (kbd "C-\\")  'markdown-insert-list-item)
-  (define-key markdown-mode-map (kbd "C-c '") 'fence-edit-code-at-point)
-  (define-key markdown-mode-map (kbd "C-c 1") 'markdown-insert-header-atx-1)
-  (define-key markdown-mode-map (kbd "C-c 2") 'markdown-insert-header-atx-2)
-  (define-key markdown-mode-map (kbd "C-c 3") 'markdown-insert-header-atx-3)
-  (define-key markdown-mode-map (kbd "C-c 4") 'markdown-insert-header-atx-4)
-  (define-key markdown-mode-map (kbd "C-c 5") 'markdown-insert-header-atx-5)
-  (define-key markdown-mode-map (kbd "C-c 6") 'markdown-insert-header-atx-6)
-
-  (add-hook 'markdown-mode-hook (lambda ()
-                                  (yas-minor-mode t)
-                                  (set-fill-column 80)
-                                  (turn-on-auto-fill)
-                                  (flyspell-mode))))
-
 (use-package wgrep
   :ensure t
   :config
-  (setq wgrep-auto-save-buffer t)
-  (defadvice wgrep-change-to-wgrep-mode (after wgrep-set-normal-state)
-    (if (fboundp 'evil-normal-state)
-	(evil-normal-state)))
-  (ad-activate 'wgrep-change-to-wgrep-mode)
-
-  (defadvice wgrep-finish-edit (after wgrep-set-motion-state)
-    (if (fboundp 'evil-motion-state)
-	(evil-motion-state)))
-  (ad-activate 'wgrep-finish-edit))
+  (setq wgrep-auto-save-buffer t))
 
 (use-package wgrep-ag
   :ensure t
@@ -231,7 +179,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 	      (define-key ag-mode-map (kbd "n") 'evil-search-next)
 	      (define-key ag-mode-map (kbd "N") 'evil-search-previous)))
   (when (eq system-type 'darwin)
-    (setq ag-executable "/usr/local/bin/ag"))
+    (setq ag-executable "/usr/bin/ag"))
   (when (eq system-type 'gnu/linux)
     (setq ag-executable "ag"))
   (setq ag-highlight-search t)
@@ -241,24 +189,14 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (use-package comment-dwim-2
   :ensure t)
 
-(use-package web-mode
-  :ensure t
-  :defer t
-  :config
-  (setq web-mode-attr-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-indent-style 2)
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-sql-indent-offset 2))
-
-(use-package sublime-themes :ensure t)
-(use-package gruvbox-theme :ensure t)
-(use-package color-theme-sanityinc-tomorrow :ensure t)
-(use-package zenburn-theme :ensure t :defer t)
+(use-package color-theme-sanityinc-solarized :ensure t)
 
 (use-package mmm-mode :ensure t :defer t)
 (use-package yaml-mode :ensure t :defer t)
+
+(use-package ace-jump-mode
+  :ensure t
+  :bind (("C-\\" . ace-jump-mode)))
 
 (use-package yasnippet
   :ensure t
@@ -266,9 +204,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :config
   (yas-global-mode t)
   ;; (define-key yas-minor-mode-map (kbd "<tab>") #'yas-expand)
-  ;; (define-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
-  (with-eval-after-load 'yasnippet
-    (setq yas-snippet-dirs '(yasnippet-snippets-dir)))
+  (define-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
 
   ;; Add yasnippet support for all company backends
   ;; https://github.com/syl20bnr/spacemacs/pull/179
@@ -283,8 +219,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
   (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
   (yas-reload-all)
-  ;; (setq yas-snippet-dirs '("~/.emacs.d/snippets"
-  ;;                          "~/.emacs.d/remote-snippets"))
   (setq tab-always-indent 'complete)
   (setq yas-prompt-functions '(yas-completing-prompt
                                yas-ido-prompt
@@ -345,54 +279,21 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (use-package bm
   :ensure t
   :demand t
-
   :init
-  ;; restore on load (even before you require bm)
   (setq bm-restore-repository-on-load t)
-
-
   :config
-  ;; Allow cross-buffer 'next'
   (setq bm-cycle-all-buffers t)
-
-  ;; where to store persistant files
   (setq bm-repository-file "~/.emacs.d/bm-repository")
-
-  ;; save bookmarks
   (setq-default bm-buffer-persistence t)
-
-  ;; Loading the repository from file when on start up.
   (add-hook 'after-init-hook 'bm-repository-load)
-
-  ;; Saving bookmarks
   (add-hook 'kill-buffer-hook #'bm-buffer-save)
-
-  ;; Saving the repository to file when on exit.
-  ;; kill-buffer-hook is not called when Emacs is killed, so we
-  ;; must save all bookmarks first.
   (add-hook 'kill-emacs-hook #'(lambda nil
                                  (bm-buffer-save-all)
                                  (bm-repository-save)))
-
-  ;; The `after-save-hook' is not necessary to use to achieve persistence,
-  ;; but it makes the bookmark data in repository more in sync with the file
-  ;; state.
   (add-hook 'after-save-hook #'bm-buffer-save)
-
-  ;; Restoring bookmarks
   (add-hook 'find-file-hooks   #'bm-buffer-restore)
   (add-hook 'after-revert-hook #'bm-buffer-restore)
-
-  ;; The `after-revert-hook' is not necessary to use to achieve persistence,
-  ;; but it makes the bookmark data in repository more in sync with the file
-  ;; state. This hook might cause trouble when using packages
-  ;; that automatically reverts the buffer (like vc after a check-in).
-  ;; This can easily be avoided if the package provides a hook that is
-  ;; called before the buffer is reverted (like `vc-before-checkin-hook').
-  ;; Then new bookmarks can be saved before the buffer is reverted.
-  ;; Make sure bookmarks is saved before check-in (and revert-buffer)
   (add-hook 'vc-before-checkin-hook #'bm-buffer-save)
-
 
   :bind (("<f2>" . bm-next)
          ("S-<f2>" . bm-previous)
@@ -401,14 +302,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
          ("<left-fringe> <mouse-1>" . bm-toggle-mouse)
          ("C-<f2>" . bm-toggle))
   )
-
-;;; Lisp interaction mode & Emacs Lisp mode:
-(add-hook 'lisp-interaction-mode-hook
-          (lambda ()
-            (define-key lisp-interaction-mode-map (kbd "<C-return>") 'eval-last-sexp)))
-(setq nxml-child-indent 4 nxml-attribute-indent 4)
-
-(setq-default tab-width 4)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -419,22 +312,20 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (use-package markdown-mode
 	     :ensure t)
-(load-theme 'sanityinc-tomorrow-eighties t)
-;; (when (eq system-type 'gnu/linux)
-  ;; (load-theme 'zenburn t))
 
 (require 'init-platform)
-(require 'init-global)
+;;(require 'init-global)
 (require 'init-keybindings)
 (require 'init-fonts)
-(require 'init-powerline)
-(require 'init-evil)
+;;(require 'init-powerline)				;
+;;(require 'init-evil)
 (require 'init-flycheck)
 (require 'init-git)
 (require 'init-org)
 (require 'init-go)
 (require 'init-python)
 (require 'init-cpp)
+(require 'init-julia)
 
 (use-package lsp-mode
   :hook (prog-mode . lsp))
@@ -446,69 +337,40 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (use-package neotree
   :ensure t
-  :bind (("<backtab>" . neotree-toggle))
-  :defer
-  :config
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-    (evil-set-initial-state 'neotree-mode 'normal)
-    (evil-define-key 'normal neotree-mode-map
-      (kbd "RET") 'neotree-enter
-      (kbd "TAB") 'neotree-quick-look
-      (kbd "c")   'neotree-create-node
-      (kbd "r")   'neotree-rename-node
-      (kbd "d")   'neotree-delete-node
-      (kbd "j")   'neotree-next-line
-      (kbd "k")   'neotree-previous-line
-      (kbd "g")   'neotree-refresh
-      (kbd "C")   'neotree-change-root
-      (kbd "I")   'neotree-hidden-file-toggle
-      (kbd "H")   'neotree-hidden-file-toggle
-      (kbd "q")   'neotree-hide
-      (kbd "l")   'neotree-enter
-))
+  :defer t
+)
 
-;;; The Emacs Shell
-(defun company-eshell-history (command &optional arg &rest ignored)
-  "Complete from shell history when starting a new line.
-
-Provide COMMAND and ARG in keeping with the Company Mode backend spec.
-The IGNORED argument is... Ignored."
-  (interactive (list 'interactive))
-  (cl-case command
-    (interactive (company-begin-backend 'company-eshell-history))
-    (prefix (and (eq major-mode 'eshell-mode)
-                 (let ((word (company-grab-word)))
-                   (save-excursion
-                     (eshell-bol)
-                     (and (looking-at-p (s-concat word "$")) word)))))
-    (candidates (remove-duplicates
-                 (->> (ring-elements eshell-history-ring)
-                      (remove-if-not (lambda (item) (s-prefix-p arg item)))
-                      (mapcar 's-trim))
-                 :test 'string=))
-    (sorted t)))
-
-(defadvice term-sentinel (around my-advice-term-sentinel (proc msg))
-  "Kill term buffer when term is ended."
-  (if (memq (process-status proc) '(signal exit))
-      (let ((buffer (process-buffer proc)))
-        ad-do-it
-        (kill-buffer buffer))
-    ad-do-it))
 (ad-activate 'term-sentinel)
-;; Run C programs directly from within emacs
-(defun execute-c-program ()
-  (interactive)
-  (defvar foo)
-  (setq foo (concat "gcc " (buffer-name) " && ./a.out" ))
-  (shell-command foo))
-
-(global-set-key [C-f1] 'execute-c-program)
-;; (when (memq window-system '(mac ns x))
-;;   (exec-path-from-shell-initialize))
-;; fails on ubuntu
-
-(provide 'init)
-;;; init.el ends here
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+(setq scroll-step 1)                    ; scrolling page
+(setq-default tab-width 4)
+
+;; IDO
+(ido-mode t)
+(setq ido-enable-flex-matching t)
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(defun my-turn-modes (param &rest modes)
+  (mapcar #'(lambda (mode)
+              (funcall mode param)) modes))
+
+(my-turn-modes 1
+               'global-auto-revert-mode
+               'global-company-mode
+               'global-hl-line-mode
+               'which-key-mode
+               'winner-mode
+			   'delete-selection-mode
+               'whole-line-or-region-mode)
+
+(setq company-global-modes '(not org-mode go-mode js2-mode cmake-mode shell-mode))
+(setq-default which-key-idle-delay 0.9)
+
+(load-theme 'sanityinc-solarized-dark t)
+
+(setenv "EDITOR" "emacsclient")
+
+(server-start)
+(provide 'init)
+;;; init.el ends here
