@@ -142,15 +142,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (use-package counsel :ensure t)
 
-(use-package swiper
-  :ensure t
-  :commands swiper
-  :bind ("C-s" . counsel-grep-or-swiper)
-  :config
-  (require 'counsel)
-  (setq counsel-grep-base-command "grep -niE \"%s\" %s")
-  (setq ivy-height 20))
-
 (use-package dictionary :ensure t)
 
 (use-package gist
@@ -257,6 +248,10 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :config
   (setq magit-branch-arguments nil)
   (setq magit-push-always-verify nil))
+
+(use-package git-gutter
+  :ensure t
+  :defer t)
 
 (use-package undo-tree
   :ensure t

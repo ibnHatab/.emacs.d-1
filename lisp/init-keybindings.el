@@ -91,5 +91,14 @@
 (global-set-key [s-up]    'windmove-up-cycle)
 (global-set-key [s-down]  'windmove-down-cycle)
 
+
+(global-set-key (kbd "C-x ?")   'git-grep)
+(global-set-key (kbd "C-x g")   'magit-status)
+(global-set-key (kbd "C-x C-g") 'git-gutter:toggle)
+(global-set-key (kbd "C-x v =") 'git-gutter:popup-hunk)
+(global-set-key (kbd "C-x p")   'git-gutter:previous-hunk)
+(global-set-key (kbd "C-x n")   'git-gutter:next-hunk)
+(global-set-key (kbd "C-x r")   'git-gutter:revert-hunk)
+
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here

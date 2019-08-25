@@ -17,7 +17,8 @@
 (add-hook 'julia-mode-hook #'lsp-mode)
 (add-hook 'julia-mode-hook 'julia-repl-mode)
 
-(setenv "JULIA_NUM_THREADS" "4")
+(setenv "JULIA_NUM_THREADS" "8")
+(setenv "JULIA_EDITOR" "emacsclient")
 
 
 (provide 'init-julia)
