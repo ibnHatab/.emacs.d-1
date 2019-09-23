@@ -213,8 +213,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (setq tab-always-indent 'complete)
   (setq yas-prompt-functions '(yas-completing-prompt
                                yas-ido-prompt
-                               yas-dropdown-prompt))
-  (define-key yas-minor-mode-map (kbd "<escape>") 'yas-exit-snippet))
+                               yas-dropdown-prompt)))
 
 (use-package yasnippet-snippets
   :ensure t
@@ -329,11 +328,12 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :ensure t)
 (use-package company-lsp
   :ensure t)
-
 (use-package neotree
   :ensure t
   :defer t
 )
+(use-package whole-line-or-region
+  :ensure t)
 
 (ad-activate 'term-sentinel)
 (put 'downcase-region 'disabled nil)
