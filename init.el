@@ -1,4 +1,8 @@
-;; Turn off mouse interface early in startup to avoid momentary display
+
+(add-to-list
+ 'load-path
+ (expand-file-name "local" user-emacs-directory))
+
 (setq backup-directory-alist `(("." . "~/.saves")))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -38,6 +42,9 @@
 (require 'init-utils)
 (require 'init-elpa)
 
+(require 'google-this)
+(google-this-mode 1)
+
 ;; use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -45,11 +52,6 @@
 
 (eval-when-compile
   (require 'use-package))
-
-(use-package nov
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
 (use-package diminish
   :ensure t
@@ -164,15 +166,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :ensure t
   :commands (ag ag-project)
   :config
-  (add-hook 'ag-mode-hook
-	    (lambda ()
-	      (wgrep-ag-setup)
-	      (define-key ag-mode-map (kbd "n") 'evil-search-next)
-	      (define-key ag-mode-map (kbd "N") 'evil-search-previous)))
-  (when (eq system-type 'darwin)
-    (setq ag-executable "/usr/bin/ag"))
-  (when (eq system-type 'gnu/linux)
-    (setq ag-executable "ag"))
   (setq ag-highlight-search t)
   (setq ag-reuse-buffers t)
   (setq ag-reuse-window t))
@@ -182,7 +175,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (use-package color-theme-sanityinc-solarized :ensure t)
 
-(use-package mmm-mode :ensure t :defer t)
+;;(use-package mmm-mode :ensure t :defer t)
 (use-package yaml-mode :ensure t :defer t)
 
 (use-package ace-jump-mode
@@ -236,10 +229,14 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (use-package highlight-symbol
   :ensure t
-  :defer t
+  ;; :defer nil
   :diminish ""
   :config
-  (setq-default highlight-symbol-idle-delay 1.5))
+  (setq-default highlight-symbol-idle-delay 1.5)
+  (global-set-key [(control f3)] 'highlight-symbol)
+  (global-set-key [f3] 'highlight-symbol-next)
+  (global-set-key [(shift f3)] 'highlight-symbol-prev)
+  (global-set-key [(meta f3)] 'highlight-symbol-query-replace))
 
 (use-package magit
   :ensure t
@@ -252,13 +249,13 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :ensure t
   :defer t)
 
-(use-package undo-tree
-  :ensure t
-  :diminish undo-tree-mode
-  :config
-  (setq undo-tree-auto-save-history t)
-  (setq undo-tree-history-directory-alist
-	(list (cons "." (expand-file-name "undo-tree-history" user-emacs-directory)))))
+;; (use-package undo-tree
+;;   :ensure t
+;;   :diminish undo-tree-mode
+;;   :config
+;;   (setq undo-tree-auto-save-history t)
+;;   (setq undo-tree-history-directory-alist
+;; 	(list (cons "." (expand-file-name "undo-tree-history" user-emacs-directory)))))
 
 (use-package writegood-mode
   :ensure t
@@ -311,8 +308,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;;(require 'init-global)
 (require 'init-keybindings)
 (require 'init-fonts)
-;;(require 'init-powerline)				;
-;;(require 'init-evil)
 (require 'init-flycheck)
 (require 'init-git)
 (require 'init-org)
