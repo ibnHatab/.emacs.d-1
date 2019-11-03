@@ -30,7 +30,7 @@
 (global-set-key [M-S-up]                 'move-text-up)
 (global-set-key [M-S-down]               'move-text-down)
 (global-set-key (kbd "C-<backspace>")    'contextual-backspace)
-(global-set-key "\M-_"                   'toggle-identifier-naming-style)
+(global-set-key "\M-+"                   'toggle-identifier-naming-style)
 
 (global-set-key (kbd "C-h")              'delete-backward-char)
 (global-set-key (kbd "M-h")              'backward-kill-word)
@@ -49,18 +49,13 @@
 (global-set-key (kbd "s-s")              'neotree-toggle)
 
 ;; Undo/Redo
-(global-set-key [M-backspace]    'undo)
-(global-set-key [M-return]
-                '(lambda () (interactive)
-                   (setq last-command 'undo-toggle) ; a hack.
-                   (advertised-undo)
-                   (message "Undo Toggle")
-                   ))
-
-(global-set-key "\C-z"            'undo)
+(require 'redo)
+(global-set-key [M-backspace] 'undo)
+(global-set-key "\C-z"        'undo)
+(global-set-key [M-return]    'redo)
 
 ;; duplicate line
-(global-set-key "\C-cd" "\C-a\C- \C-n\M-w\C-y\C-p\C-a")
+(global-set-key "\C-c\C-d" "\C-a\C- \C-n\M-w\C-y\C-p\C-a")
 
 ;; Fast movements
 (global-set-key [C-right]       'forward-word)

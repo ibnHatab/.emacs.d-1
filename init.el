@@ -57,6 +57,10 @@
   :ensure t
   :defer t)
 
+(use-package tramp
+  :ensure t
+  :defer t)
+
 (use-package protobuf-mode
   :ensure t
   :defer t)
@@ -95,6 +99,8 @@
   (setq helm-mode-fuzzy-match t)
   (setq helm-completion-in-region-fuzzy-match t)
   (setq helm-candidate-number-limit 100)
+  (setq helm-mode-handle-completion-in-region nil)
+
   (setq-default
    helm-recentf-fuzzy-match 't
    helm-buffers-fuzzy-match 't
@@ -249,13 +255,13 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :ensure t
   :defer t)
 
-;; (use-package undo-tree
-;;   :ensure t
-;;   :diminish undo-tree-mode
-;;   :config
-;;   (setq undo-tree-auto-save-history t)
-;;   (setq undo-tree-history-directory-alist
-;; 	(list (cons "." (expand-file-name "undo-tree-history" user-emacs-directory)))))
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :config
+  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-history-directory-alist
+	(list (cons "." (expand-file-name "undo-tree-history" user-emacs-directory)))))
 
 (use-package writegood-mode
   :ensure t
@@ -304,20 +310,12 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (use-package markdown-mode
 	     :ensure t)
 
-(require 'init-platform)
-;;(require 'init-global)
-(require 'init-keybindings)
-(require 'init-fonts)
-(require 'init-flycheck)
-(require 'init-git)
-(require 'init-org)
-(require 'init-go)
-(require 'init-python)
-(require 'init-cpp)
-(require 'init-julia)
-
 (use-package lsp-mode
-  :hook (prog-mode . lsp))
+  :ensure t
+  :hook (prog-mode . lsp)
+  :config
+  (setq lsp-ui-doc-enable nil)
+  )
 
 (use-package lsp-ui
   :ensure t)
@@ -329,6 +327,18 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 )
 (use-package whole-line-or-region
   :ensure t)
+
+(require 'init-platform)
+;;(require 'init-global)
+(require 'init-keybindings)
+(require 'init-fonts)
+(require 'init-flycheck)
+(require 'init-git)
+(require 'init-org)
+(require 'init-go)
+(require 'init-python)
+(require 'init-cpp)
+(require 'init-julia)
 
 (ad-activate 'term-sentinel)
 (put 'downcase-region 'disabled nil)
