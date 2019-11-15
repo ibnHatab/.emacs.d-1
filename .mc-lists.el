@@ -7,6 +7,7 @@
 		c-electric-lt-gt
 		c-electric-paren
 		c-electric-semi&comma
+		dabbrev-expand
 		downcase-region
 		elpy-nav-backward-indent
 		elpy-nav-forward-indent
@@ -38,13 +39,17 @@
 
 (setq mc/cmds-to-run-once
       '(
+		c-indent-line-or-region
 		elpy-nav-indent-shift-left
 		end-of-buffer
 		evil-execute-in-normal-state
 		evil-search-word-backward
+		goto-line
+		helm-buffers-list
+		helm-find-files
 		helm-mini
 		keyboard-escape-quit
 		mouse-set-region
-		smart-line-beginning
+		whole-line-or-region-kill-ring-save
 		windmove-up-cycle
 		))

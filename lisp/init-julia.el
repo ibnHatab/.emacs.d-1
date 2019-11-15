@@ -1,4 +1,4 @@
-;;; init-python.el -- julia config
+;;; init-julia.el -- julia config
 ;;;
 ;;; Code: down below
 ;;;

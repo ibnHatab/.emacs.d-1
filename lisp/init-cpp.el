@@ -115,7 +115,7 @@
 (defun my-c++-mode-hook ()
   (c-set-style "hwp-c-style")
   (c-toggle-auto-hungry-state 1)
-  ;;(fset 'c-indent-region 'clang-format-region)
+  (fset 'c-indent-region 'clang-format-region)
   (auto-fill-mode))
 
 (defun clang-format-buffer-smart-on-save ()

@@ -13,8 +13,8 @@
   (add-hook 'flycheck-mode-hook
             (lambda ()
               (when (maybe-require-package 'evil)
-                (evil-define-key 'normal flycheck-mode-map (kbd "]e") 'flycheck-next-error)
-                (evil-define-key 'normal flycheck-mode-map (kbd "[e") 'flycheck-previous-error))
+                (evil-define-key 'normal flycheck-mode-map (kbd "C-x ]") 'flycheck-next-error)
+                (evil-define-key 'normal flycheck-mode-map (kbd "C-x [") 'flycheck-previous-error))
               (when (maybe-require-package 'evil-leader)
                 (evil-leader/set-key (kbd "e") 'flycheck-list-errors))))
 
@@ -25,6 +25,7 @@
 	flycheck-disabled-checkers '(php-phpmd)
 	flycheck-phpcs-standard "CSNStores")
 
+  (setq flycheck-global-modes '(not LaTeX-mode latex-mode))
   (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list))
 
 (provide 'init-flycheck)

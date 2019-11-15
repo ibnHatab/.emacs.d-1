@@ -6,19 +6,30 @@
 
 (use-package py-yapf :ensure t)
 
-(use-package elpy
+
+(use-package python
+  :mode ("\\.py" . python-mode)
   :ensure t
   :config
-  (setq python-shell-interpreter "ipython"
-    python-shell-interpreter-args "-i --simple-prompt")
-  (setq python-shell-completion-native-enable nil)
-  (elpy-enable))
+  (flymake-mode)
+  (use-package elpy
+ 	:ensure t
+ 	:config
+ 	(setq python-shell-interpreter "ipython"
+ 		  python-shell-interpreter-args "-i --simple-prompt")
+ 	(setq python-shell-completion-native-enable nil)
+ 	)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (elpy-enable)
+  )
+(add-hook 'elpy-mode-hook 'flycheck-mode)
+
 
 (add-hook 'elpy-mode-hook #'hs-minor-mode)
-
 (add-hook 'python-mode-hook 'hs-minor-mode
 	  (lambda ()
         (flycheck-mode -1)
+        (flycmake-mode -1)
 	    (setq indent-tabs-mode nil)
 	    (setq tab-width 4)
 	    (setq python-indent-offset 4))
@@ -39,6 +50,7 @@
 
             ;; Additional settings follow.
             (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+
 
 
 (provide 'init-python)
