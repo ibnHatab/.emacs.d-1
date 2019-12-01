@@ -32,6 +32,8 @@
   :init
 )
 
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
 ;; cat *.cpp > single.cpp
 ;;  M-x c-guess-no-install and then M-x c-guess-view
 (c-add-style "hwp-c-style"
@@ -133,6 +135,74 @@
   (if (or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))
 	  (doxymacs-font-lock)))
 (add-hook 'font-lock-mode-hook 'my-doxymacs-font-lock-hook)
+
+
+
+;; autoinsert C/C++ header
+(define-auto-insert
+  (cons "\\.\\([Hh]\\|hh\\|hpp\\)\\'" "My C / C++ header")
+  '(nil
+	"///\n"
+	"/// @file " (file-name-nondirectory buffer-file-name) "\n"
+	"/// @author <smp28rd> \n"
+	"///\n"
+	"/// @brief\n"
+	"///\n"
+	"///\n"
+	"///\n"
+	(make-string 70 ?/) "\n\n"
+	(let* ((noext (substring buffer-file-name 0 (match-beginning 0)))
+		   (nopath (file-name-nondirectory noext))
+		   (ident (concat "__" (upcase nopath) "_H__")))
+	  (concat "#ifndef " ident "\n"
+			  "#define " ident  "\n\n\n"
+			  "\n\n#endif // " ident "\n"))
+	))
+
+;; auto insert C/C++
+(define-auto-insert
+  (cons "\\.\\([Cc]\\|cc\\|cpp\\)\\'" "My C++ implementation")
+  '(nil
+	"///\n"
+	"/// @file " (file-name-nondirectory buffer-file-name) "\n"
+	"/// @author <smp28rd> \n"
+	"///\n"
+	"/// @brief\n"
+	"///\n"
+	"///\n"
+	(make-string 70 ?/) "\n\n"
+	(let* ((noext (substring buffer-file-name 0 (match-beginning 0)))
+		   (nopath (file-name-nondirectory noext))
+		   (ident (concat nopath ".h")))
+	  (if (file-exists-p ident)
+		  (concat "#include \"" ident "\"\n")))
+	(make-string 70 ?/) "\n"
+	))
+
+(require 'xah-lookup)
+
+(defun xah-lookup-cppreference (&optional word)
+  "Lookup definition of current word or text selection in URL."
+  (interactive)
+  (xah-lookup-word-on-internet
+   word
+   ;; Use word02051 as a placeholder in the query URL.
+   "http://en.cppreference.com/mwiki/index.php?search=word02051"
+   xah-lookup-browser-function))
+
+
+;; Add shortcut for c++-mode
+(define-key c++-mode-map (kbd "C-c d c") #'xah-lookup-cppreference)
+
+;; Another example with http://www.boost.org
+(defun xah-lookup-boost (&optional word)
+  (interactive)
+  (xah-lookup-word-on-internet
+   word
+   "https://cse.google.com/cse?cx=011577717147771266991:jigzgqluebe&q=word02051"
+   xah-lookup-browser-function))
+(define-key c++-mode-map (kbd "C-c d b") #'xah-lookup-boost)
+
 
 (provide 'init-cpp)
 ;;; init-cpp.el ends here

@@ -21,7 +21,7 @@
 (define-key global-map (kbd "C-x \\")    'align-regexp)
 
 (define-key global-map (kbd "<f1>")      'switch-to-buffer-other-buffer)
-(define-key global-map (kbd "<f11>")     'switch-to-buffer-other-buffer)
+(define-key global-map (kbd "<f11>")      'switch-to-buffer-other-buffer)
 (define-key global-map (kbd "<f9>")      'ag)
 (define-key global-map (kbd "<f12>")     'kill-this-buffer)
 (define-key global-map (kbd "C-<f12>")   'server-edit)

@@ -3,10 +3,12 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+		backward-sexp
 		c-electric-colon
 		c-electric-lt-gt
 		c-electric-paren
 		c-electric-semi&comma
+		c-electric-slash
 		dabbrev-expand
 		downcase-region
 		elpy-nav-backward-indent
@@ -30,6 +32,7 @@
 		org-cycle
 		org-force-self-insert
 		org-self-insert-command
+		smart-line-beginning
 		toggle-identifier-naming-style
 		whole-line-or-region-kill-region
 		whole-line-or-region-yank
@@ -45,11 +48,13 @@
 		evil-execute-in-normal-state
 		evil-search-word-backward
 		goto-line
+		handle-switch-frame
 		helm-buffers-list
 		helm-find-files
 		helm-mini
 		keyboard-escape-quit
 		mouse-set-region
 		whole-line-or-region-kill-ring-save
+		windmove-down-cycle
 		windmove-up-cycle
 		))
