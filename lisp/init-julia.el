@@ -20,6 +20,10 @@
 (setenv "JULIA_NUM_THREADS" "8")
 (setenv "JULIA_EDITOR" "emacsclient")
 
+(defcustom julia-default-environment "~/.julia/environment/v1.0"
+  "The default julia environment"
+  :type 'string
+  :group 'julia-config)
 
 (provide 'init-julia)
 ;;; init-julia.el ends here
