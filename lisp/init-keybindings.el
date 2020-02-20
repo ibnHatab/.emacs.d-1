@@ -5,9 +5,6 @@
 ;;; Commentary:
 
 (define-key global-map (kbd "C-c s") (lambda () (interactive) (ansi-term "zsh")))
-(define-key global-map (kbd "C-x C-f")   'helm-find-files)
-(global-set-key (kbd "M-x")     'helm-M-x)
-(global-set-key (kbd "C-x b")   'helm-buffers-list)
 
 ;; Move line/code region with M-S-Up/Down
 (global-set-key [M-S-up]            'move-text-up)
@@ -19,6 +16,7 @@
 (define-key global-map (kbd "M-\\")      'shell-command-on-region)
 (define-key global-map (kbd "\M-,")      'pop-tag-mark)
 (define-key global-map (kbd "C-x \\")    'align-regexp)
+(define-key global-map (kbd "C-c C-c")   'projectile-compile-project)
 
 (define-key global-map (kbd "<f1>")      'switch-to-buffer-other-buffer)
 (define-key global-map (kbd "<f11>")      'switch-to-buffer-other-buffer)

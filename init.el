@@ -84,8 +84,15 @@
 
 (use-package helm
   :ensure t
-  :diminish helm-mode
-  :commands helm-mode
+  :custom
+  (helm-completion-style 'emacs)
+  :init
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x b")   'helm-buffers-list)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+  (setq completion-styles `(basic partial-completion emacs22 initials
+                                  ,(if (version<= emacs-version "27.0") 'helm-flex 'flex)))
   :config
   (helm-mode 1)
   (setq helm-mini-default-sources
@@ -94,18 +101,17 @@
         helm-source-recentf
         helm-source-buffer-not-found))
   (setq helm-buffers-fuzzy-matching t)
+  (setq helm-M-x-fuzzy-match t)
   (setq helm-autoresize-mode t)
   (setq helm-buffer-max-length 40)
   (setq helm-mode-fuzzy-match t)
   (setq helm-completion-in-region-fuzzy-match t)
   (setq helm-candidate-number-limit 100)
   (setq helm-mode-handle-completion-in-region nil)
-
   (setq-default
    helm-recentf-fuzzy-match 't
    helm-buffers-fuzzy-match 't
    helm-locate-fuzzy-match 't
-   helm-M-x-fuzzy-match 't
    helm-imenu-fuzzy-match 't
    helm-apropos-fuzzy-match 't
    helm-lisp-completion-at-point 't
@@ -113,7 +119,7 @@
    helm-imenu-fuzzy-match t
    )
   (define-key helm-map (kbd "S-SPC") 'helm-toggle-visible-mark)
-  (define-key helm-find-files-map (kbd "C-k") 'helm-find-files-up-one-level))
+  )
 
 
 (use-package company

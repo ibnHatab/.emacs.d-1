@@ -1,5 +1,0 @@
-(
- (:id "sha1:94f6125eba090fc89a84c22c7b62660aa3541d44" :fingerprint "sha1:35:d8:e3:0a:1a:0c:e2:cd:81:27:7c:e0:6c:f0:25:75:1c:88:5c:62" :host "jorgenschaefer.github.io:443" :conditions (:insecure :unknown-ca :invalid))
- (:id "sha1:12de7a9f1e84f40fb4597d0a747d24a2e89c8b49" :fingerprint "sha1:2f:2f:27:ea:da:27:75:fa:29:15:90:74:4e:59:1b:aa:30:27:39:9e" :host "www.gutenberg.org:443" :conditions (:insecure :unknown-ca :invalid))
- (:id "sha1:24c7a1e6369fef1e50de1deb1a9e5bbc68f80c8b" :fingerprint "sha1:26:26:88:6a:58:94:85:2f:98:ce:97:a0:0d:93:75:63:0a:9e:44:b5" :host "orgmode.org:443" :conditions (:insecure :unknown-ca :invalid))
-)

@@ -27,7 +27,7 @@
   :after (cmake-mode)
   :hook (cmake-mode . cmake-font-lock-activate))
 
-(use-package xah-lookup 
+(use-package xah-lookup
   :ensure t
   :init
 )
