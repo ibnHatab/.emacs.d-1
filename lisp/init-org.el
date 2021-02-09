@@ -14,8 +14,9 @@
 (use-package htmlize
   :ensure t)
 
-(use-package ox-rst
-  :ensure t)
+;; (use-package ox-rst
+;;   :ensure t)
+(require 'ox-rst)
 
 (use-package org-bullets
   :after org

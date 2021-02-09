@@ -331,8 +331,8 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :ensure t
   :defer t
 )
-(use-package whole-line-or-region
-  :ensure t)
+;; (use-package whole-line-or-region
+;;   :ensure t)
 
 (require 'init-platform)
 ;;(require 'init-global)
@@ -368,7 +368,8 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
                'which-key-mode
                'winner-mode
 			   'delete-selection-mode
-               'whole-line-or-region-mode)
+;;               'whole-line-or-region-mode
+			   )
 
 (setq company-global-modes '(not org-mode go-mode js2-mode cmake-mode shell-mode))
 (setq-default which-key-idle-delay 0.9)

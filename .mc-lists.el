@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
 		backward-sexp
+		c-electric-brace
 		c-electric-colon
 		c-electric-lt-gt
 		c-electric-paren
@@ -42,6 +43,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+		c-electric-star
 		c-indent-line-or-region
 		elpy-nav-indent-shift-left
 		end-of-buffer
@@ -52,9 +54,14 @@
 		helm-buffers-list
 		helm-find-files
 		helm-mini
+		indent-for-tab-command
+		julia-latexsub-or-indent
 		keyboard-escape-quit
 		mouse-set-region
+		python-indent-shift-right
+		suspend-frame
 		whole-line-or-region-kill-ring-save
 		windmove-down-cycle
+		windmove-right-cycle
 		windmove-up-cycle
 		))

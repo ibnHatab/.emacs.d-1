@@ -38,6 +38,7 @@
 )
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
 
 ;; cat *.cpp > single.cpp
 ;;  M-x c-guess-no-install and then M-x c-guess-view
@@ -50,7 +51,7 @@
 				(defun-block-intro . +)	; Guessed value
 				(defun-close . 0)		; Guessed value
 				(defun-open . 0)		; Guessed value
-				(else-clause . 0)		; Guessed value
+		 		(else-clause . 0)		; Guessed value
 				(innamespace . 0)		; Guessed value
 				(namespace-close . 0)		; Guessed value
 				(statement . 0)				; Guessed value
@@ -207,6 +208,7 @@
    "https://cse.google.com/cse?cx=011577717147771266991:jigzgqluebe&q=word02051"
    xah-lookup-browser-function))
 (define-key c++-mode-map (kbd "C-c d b") #'xah-lookup-boost)
+(define-key c++-mode-map (kbd "C-c C-h") #'ff-find-other-file)
 
 
 (provide 'init-cpp)

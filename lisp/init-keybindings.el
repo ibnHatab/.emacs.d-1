@@ -93,5 +93,9 @@
 (global-set-key (kbd "C-x n")   'git-gutter:next-hunk)
 (global-set-key (kbd "C-x r")   'git-gutter:revert-hunk)
 
+(require `expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C--") 'er/contract-region)
+
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here
