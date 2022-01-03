@@ -16,7 +16,7 @@
 
 ;; (use-package ox-rst
 ;;   :ensure t)
-(require 'ox-rst)
+;(require 'ox-rst)
 
 (use-package org-bullets
   :after org

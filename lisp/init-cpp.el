@@ -11,12 +11,12 @@
   :commands lsp-ui-mode
   :ensure t
   )
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp
-  :config
-  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
-  (push 'company-lsp company-backends)) ;; add company-lsp as a backend
+;(use-package company-lsp
+;  :ensure t
+;  :commands company-lsp
+;  :config
+;  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+;  (push 'company-lsp company-backends)) ;; add company-lsp as a backend
 
 (use-package cmake-mode
   :ensure t
@@ -27,10 +27,10 @@
   :after (cmake-mode)
   :hook (cmake-mode . cmake-font-lock-activate))
 
-(use-package xah-lookup
-  :ensure t
-  :init
-)
+;(use-package xah-lookup
+;  :ensure t
+;  :init
+;)
 
 (use-package clang-format
   :ensure t
@@ -185,7 +185,6 @@
 	(make-string 70 ?/) "\n"
 	))
 
-(require 'xah-lookup)
 
 (defun xah-lookup-cppreference (&optional word)
   "Lookup definition of current word or text selection in URL."

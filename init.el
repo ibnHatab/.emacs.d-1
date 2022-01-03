@@ -61,6 +61,14 @@
   :ensure t
   :defer t)
 
+(use-package helm-tramp
+  :ensure t
+  :defer t)
+
+(setq tramp-default-method "ssh")
+(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+(define-key global-map (kbd "C-c C-s") 'helm-tramp)
+
 (use-package protobuf-mode
   :ensure t
   :defer t)
@@ -325,8 +333,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (use-package lsp-ui
   :ensure t)
-(use-package company-lsp
-  :ensure t)
 (use-package neotree
   :ensure t
   :defer t
@@ -344,7 +350,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (require 'init-go)
 (require 'init-python)
 (require 'init-cpp)
-(require 'init-julia)
+;(require 'init-julia)
 
 (ad-activate 'term-sentinel)
 (put 'downcase-region 'disabled nil)
@@ -373,6 +379,11 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (setq company-global-modes '(not org-mode go-mode js2-mode cmake-mode shell-mode))
 (setq-default which-key-idle-delay 0.9)
+
+;; (add-to-list
+;;  'load-path
+;;  (expand-file-name "local/ros-emacs" user-emacs-directory))
+;; (require 'rosemacs-config)
 
 (load-theme 'sanityinc-solarized-dark t)
 
