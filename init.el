@@ -350,7 +350,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (require 'init-go)
 (require 'init-python)
 (require 'init-cpp)
-;(require 'init-julia)
+(require 'init-julia)
 
 (ad-activate 'term-sentinel)
 (put 'downcase-region 'disabled nil)
