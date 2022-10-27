@@ -15,9 +15,9 @@
   (use-package elpy
  	:ensure t
  	:config
- 	(setq python-shell-interpreter "ipython")
-	(setq python-shell-interpreter-args "--simple-prompt -i")
- 	(setq python-shell-completion-native-enable nil)
+ 	(setq python-shell-interpreter "python")
+	;; (setq python-shell-interpreter-args "--simple-prompt -i")
+ 	;; (setq python-shell-completion-native-enable nil)
  	)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (elpy-enable)
