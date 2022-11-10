@@ -333,10 +333,14 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (use-package lsp-ui
   :ensure t)
+
 (use-package neotree
   :ensure t
   :defer t
-)
+  )
+
+(add-to-list 'auto-mode-alist '("\\.launch\\'" . xml-mode))
+
 ;; (use-package whole-line-or-region
 ;;   :ensure t)
 
