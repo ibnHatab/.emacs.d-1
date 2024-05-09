@@ -9,6 +9,8 @@
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+(setq package-check-signature nil)
+
 ;; Turn off bell alarms
 (setq ring-bell-function 'ignore)
 
@@ -16,6 +18,9 @@
 (setq inhibit-startup-screen t)
 
 (package-initialize)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
 ;; package.el
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -40,7 +45,7 @@
 (load custom-file 'noerror)
 
 (require 'init-utils)
-(require 'init-elpa)
+;; (require 'init-elpa)
 
 (require 'google-this)
 (google-this-mode 1)
@@ -354,7 +359,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 (require 'init-go)
 (require 'init-python)
 (require 'init-cpp)
-(require 'init-julia)
+;; (require 'init-julia)
 
 (ad-activate 'term-sentinel)
 (put 'downcase-region 'disabled nil)
