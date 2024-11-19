@@ -28,6 +28,7 @@
 		evil-search-forward
 		evil-yank
 		forward-sexp
+		markdown-outdent-or-delete
 		mouse-yank-primary
 		org-beginning-of-line
 		org-cycle
@@ -57,6 +58,8 @@
 		indent-for-tab-command
 		julia-latexsub-or-indent
 		keyboard-escape-quit
+		mark-whole-buffer
+		markdown-insert-list-item
 		mouse-set-region
 		python-indent-shift-right
 		suspend-frame

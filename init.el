@@ -3,6 +3,7 @@
  'load-path
  (expand-file-name "local" user-emacs-directory))
 
+
 (setq backup-directory-alist `(("." . "~/.saves")))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -341,6 +342,20 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 
 (add-to-list 'auto-mode-alist '("\\.launch\\'" . xml-mode))
 
+;; (setq python-interpreter "python3")
+(require 'chatgpt)
+;; (setq chatgpt-repo-path (expand-file-name "local/" user-emacs-directory))
+;; (global-set-key (kbd "C-c q") #'chatgpt-query)
+;; 										; sk-REDACTED
+
+;; (setq chatgpt-query-format-string-map '( ;; ChatGPT.el defaults
+;;                                         ("doc" . "Please write the documentation for the following function.\n\n%s")
+;;                                         ("bug" . "There is a bug in the following function, please help me fix it.\n\n%s")
+;;                                         ("understand" . "What does the following function do?\n\n%s")
+;;                                         ("improve" . "Please improve the following code.\n\n%s")
+;;                                         ;; your new prompt
+;;                                         ("my-custom-type" . "My custom prompt.\n\n%s")))
+
 ;; (use-package whole-line-or-region
 ;;   :ensure t)
 
@@ -388,6 +403,9 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
 ;;  'load-path
 ;;  (expand-file-name "local/ros-emacs" user-emacs-directory))
 ;; (require 'rosemacs-config)
+
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
 (load-theme 'sanityinc-solarized-dark t)
 
