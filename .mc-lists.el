@@ -12,6 +12,7 @@
 		c-electric-slash
 		dabbrev-expand
 		downcase-region
+		electric-newline-and-maybe-indent
 		elpy-nav-backward-indent
 		elpy-nav-forward-indent
 		evil-append
@@ -28,12 +29,17 @@
 		evil-search-forward
 		evil-yank
 		forward-sexp
+		kill-region
 		markdown-outdent-or-delete
 		mouse-yank-primary
 		org-beginning-of-line
 		org-cycle
+		org-end-of-line
 		org-force-self-insert
+		org-kill-line
+		org-metaup
 		org-self-insert-command
+		org-shiftcontrolleft
 		smart-line-beginning
 		toggle-identifier-naming-style
 		whole-line-or-region-kill-region
@@ -44,8 +50,10 @@
 
 (setq mc/cmds-to-run-once
       '(
+		bm-toggle
 		c-electric-star
 		c-indent-line-or-region
+		electric-pair-delete-pair
 		elpy-nav-indent-shift-left
 		end-of-buffer
 		evil-execute-in-normal-state
@@ -61,8 +69,13 @@
 		mark-whole-buffer
 		markdown-insert-list-item
 		mouse-set-region
+		org-meta-return
+		org-shiftcontrolright
+		org-shiftleft
+		org-shiftright
 		python-indent-shift-right
 		suspend-frame
+		switch-to-buffer-other-buffer
 		whole-line-or-region-kill-ring-save
 		windmove-down-cycle
 		windmove-right-cycle

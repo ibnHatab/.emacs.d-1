@@ -2,31 +2,14 @@
 ;;; Commentary:
 
 ;;; Code:
-(require 'init-fonts)
 
-;; This must run after window setup or it seems to have no effect.
-(add-hook 'window-setup-hook
-          (lambda ()
-            (when (memq window-system '(x))
-              (add-to-list 'default-frame-alist '(font . "Hack"))
-              (set-face-attribute 'default nil :font "Hack")
-              (sanityinc/set-frame-font-size 16))
-            (when (fboundp 'powerline-reset)
-              (powerline-reset))))
+;; Fonts and theme live in init-ui.el; this module is movement/window helpers.
 
 (setq kill-buffer-query-functions
   (remq 'process-kill-buffer-query-function
         kill-buffer-query-functions))
 
-(defun move-text-down (arg)
-  "Move region (transient-mark-mode active) or current line arg lines down."
-  (interactive "*p")
-  (move-text-internal arg))
-
-(defun move-text-up (arg)
-  "Move region (transient-mark-mode active) or current line arg lines up."
-  (interactive "*p")
-  (move-text-internal (- arg)))
+;; NOTE: move-text-up/down and move-text-internal live in init-utils.el.
 
 (defun contextual-backspace ()
   "Hungry whitespace or delete word depending on context."
@@ -209,35 +192,16 @@ the current position of point, then move it to the beginning of the line."
 ;; Window Close keybindings
 (global-set-key (kbd "C-x x") 'delete-window)
 
-
-(use-package rainbow-delimiters
-  :ensure t
-  :defer t
-)
-
-
-(use-package smartparens
-  :ensure t
-  :defer t
-)
-
+;; ---------------------------------------------------------------------------
+;; Programming-mode baseline (rainbow-delimiters is set up in init-ui)
+;; ---------------------------------------------------------------------------
 (defun my-code-mode-init ()
-  (my-turn-modes 1
-                 ;; 'linum-mode
-                 'rainbow-delimiters-mode
-                 'flycheck-mode
-                 ;; 'show-paren-mode
-                 'electric-indent-mode
-                 'electric-pair-mode)
-  (add-to-list 'write-file-functions 'delete-trailing-whitespace))
+  "Baseline conveniences for every programming buffer."
+  (electric-indent-local-mode 1)
+  (electric-pair-local-mode 1)
+  (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
 
-(add-hook
- 'prog-mode-hook
- 'my-code-mode-init)
-
-(add-hook 'write-file-functions 'delete-trailing-whitespace)
-(autoload 'nuke-trailing-whitespace "whitespace" nil t) ;remove trailing
-
+(add-hook 'prog-mode-hook #'my-code-mode-init)
 
 (provide 'init-platform)
 ;;; init-platform.el ends here

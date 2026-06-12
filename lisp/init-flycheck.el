@@ -10,14 +10,6 @@
   (add-hook 'after-init-hook 'global-flycheck-mode)
 
   ;; Flycheck mode:
-  (add-hook 'flycheck-mode-hook
-            (lambda ()
-              (when (maybe-require-package 'evil)
-                (evil-define-key 'normal flycheck-mode-map (kbd "C-x ]") 'flycheck-next-error)
-                (evil-define-key 'normal flycheck-mode-map (kbd "C-x [") 'flycheck-previous-error))
-              (when (maybe-require-package 'evil-leader)
-                (evil-leader/set-key (kbd "e") 'flycheck-list-errors))))
-
   ;; Override default flycheck triggers
   (setq flycheck-emacs-lisp-load-path 'inherit
 	flycheck-check-syntax-automatically '(save idle-change mode-enabled)

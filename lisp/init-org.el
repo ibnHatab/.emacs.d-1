@@ -27,18 +27,6 @@
 (use-package org-pomodoro
   :bind ("C-x C-p" . org-pomodoro)
   :ensure t)
-
-(use-package evil-org
-  :ensure t
-  :after org
-  :config
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading)))))
-
-(use-package hideshow-org
-  :ensure t)
 ;; End org-mode related packages
 
 (with-eval-after-load 'org

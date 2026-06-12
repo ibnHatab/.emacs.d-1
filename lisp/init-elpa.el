@@ -1,83 +1,54 @@
-;;; Find and load the correct package.el
-
-;; When switching between Emacs 23 and 24, we always use the bundled package.el in Emacs 24
-(let ((package-el-site-lisp-dir
-       (expand-file-name "site-lisp/package" user-emacs-directory)))
-  (when (and (file-directory-p package-el-site-lisp-dir)
-             (> emacs-major-version 23))
-    (message "Removing local package.el from load-path to avoid shadowing bundled version")
-    (setq load-path (remove package-el-site-lisp-dir load-path))))
+;;; init-elpa.el --- Package system bootstrap -*- lexical-binding: t; -*-
+;;; Commentary:
+;; Sets up package.el archives (HTTPS only), bootstraps use-package, and
+;; restores a sane garbage-collection threshold after the early-init bump.
+;;; Code:
 
 (require 'package)
 
-;;; Standard package repositories
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
-;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("elpy" . "https://jorgenschaefer.github.io/packages/"))
+;; HTTPS archives only.
+(setq package-archives
+      '(("gnu"    . "https://elpa.gnu.org/packages/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+        ("melpa"  . "https://melpa.org/packages/")))
 
-;;; Pin some packages to specific repositories.
-;; (setq package-pinned-packages '((gtags . "marmalade")
-;;                                 (php-extras . "marmalade")))
+;; Signature verification is disabled: signed package downloads from
+;; elpa.gnu.org are unreliable in this environment (empty .sig bodies),
+;; which would otherwise abort installs.  Re-enable to 'allow-unsigned
+;; if you move to a network where GNU ELPA downloads work cleanly.
+(setq package-check-signature nil)
 
-;; If gpg cannot be found, signature checking will fail, so we
-;; conditionally enable it according to whether gpg is available. We
-;; re-run this check once $PATH has been configured
-(defun sanityinc/package-maybe-enable-signatures ()
-  (setq package-check-signature (when (executable-find "gpg") 'allow-unsigned)))
+(package-initialize)
 
-(sanityinc/package-maybe-enable-signatures)
-(after-load 'init-exec-path
-  (sanityinc/package-maybe-enable-signatures))
-
-;;; On-demand installation of packages
-(defun require-package (package &optional min-version no-refresh)
-  "Install given PACKAGE, optionally requiring MIN-VERSION.
-If NO-REFRESH is non-nil, the available package lists will not be
-re-downloaded in order to locate PACKAGE."
-  (if (package-installed-p package min-version)
-      t
-    (if (or (assoc package package-archive-contents) no-refresh)
-        (package-install package)
-      (progn
-        (package-refresh-contents)
-        (require-package package min-version t)))))
-
-(defun maybe-require-package (package &optional min-version no-refresh)
-  "Try to install PACKAGE, and return non-nil if successful.
-In the event of failure, return nil and print a warning message.
-Optionally require MIN-VERSION.  If NO-REFRESH is non-nil, the
-available package lists will not be re-downloaded in order to
-locate PACKAGE."
+;; Refresh archive contents, tolerating a single archive being temporarily
+;; unreachable (elpa.gnu.org / elpa.nongnu.org occasionally rate-limit).
+(defun my/package-refresh-safe ()
+  "Refresh package contents without aborting if one archive is down."
   (condition-case err
-      (require-package package min-version no-refresh)
+      (package-refresh-contents)
     (error
-     (message "Couldn't install package `%s': %S" package err)
-     nil)))
+     (message "Package refresh: some archives unavailable (%s)" err))))
 
-;; Don't do this, because we already did it (in init.el)
-(setq package-enable-at-startup nil)
+(unless package-archive-contents
+  (my/package-refresh-safe))
 
-(require-package 'fullframe)
-(fullframe list-packages quit-window)
+;; Bootstrap use-package (built in on Emacs 29+, installed otherwise).
+(unless (package-installed-p 'use-package)
+  (my/package-refresh-safe)
+  (package-install 'use-package))
+(eval-when-compile (require 'use-package))
 
-(require-package 'cl-lib)
-(require 'cl-lib)
+;; Install :ensure'd packages automatically; keep startup quiet.
+(setq use-package-always-ensure t
+      use-package-expand-minimally t)
 
-(defun sanityinc/set-tabulated-list-column-width (col-name width)
-  "Set any column with name COL-NAME to the given WIDTH."
-  (cl-loop for column across tabulated-list-format
-           when (string= col-name (car column))
-           do (setf (elt column 1) width)))
+(use-package diminish :ensure t)
 
-(defun sanityinc/maybe-widen-package-menu-columns ()
-  "Widen some columns of the package menu table to avoid truncation."
-  (when (boundp 'tabulated-list-format)
-    (sanityinc/set-tabulated-list-column-width "Version" 13)
-    (let ((longest-archive-name (apply 'max (mapcar 'length (mapcar 'car package-archives)))))
-      (sanityinc/set-tabulated-list-column-width "Archive" longest-archive-name))))
-
-(add-hook 'package-menu-mode-hook 'sanityinc/maybe-widen-package-menu-columns)
+;; Restore GC behaviour after startup (early-init raised it).
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 64 1024 1024)
+                  gc-cons-percentage 0.1)))
 
 (provide 'init-elpa)
+;;; init-elpa.el ends here
