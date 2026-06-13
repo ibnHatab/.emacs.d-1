@@ -31,8 +31,10 @@ recentf
 # pinned third-party checkouts (reproducible; see scripts/ + SETUP.md)
 /site-lisp/
 
-# claude-code-ide checkout (user-provided; loaded by lisp/init-claude.el)
+# claude-code-ide checkout (user-provided; loaded by lisp/init-claude.el).
+# It is its own git checkout under local/, so keep it out of this repo.
 /tmp/
+/local/claude-code-ide/
 
 # savehist runtime file
 /history

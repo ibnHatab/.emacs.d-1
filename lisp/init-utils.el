@@ -46,36 +46,9 @@
   (file-name-as-directory (file-name-directory (find-library-name library-name))))
 
 
-;;----------------------------------------------------------------------------
-;; Delete the current file
-;;----------------------------------------------------------------------------
-(defun delete-this-file ()
-  "Delete the current file, and kill the buffer."
-  (interactive)
-  (or (buffer-file-name) (error "No file is currently being edited"))
-  (when (yes-or-no-p (format "Really delete '%s'?"
-                             (file-name-nondirectory buffer-file-name)))
-    (delete-file (buffer-file-name))
-    (kill-this-buffer)))
-
-
-;;----------------------------------------------------------------------------
-;; Rename the current file
-;;----------------------------------------------------------------------------
-(defun rename-this-file-and-buffer (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (unless filename
-      (error "Buffer '%s' is not visiting a file!" name))
-    (if (get-buffer new-name)
-        (message "A buffer named '%s' already exists!" new-name)
-      (progn
-        (when (file-exists-p filename)
-         (rename-file filename new-name 1))
-        (rename-buffer new-name)
-        (set-visited-file-name new-name)))))
+;; Delete / rename the current file: use crux instead of hand-rolled defuns.
+;; crux-delete-file-and-buffer (C-c D) and crux-rename-file-and-buffer (C-c r)
+;; are bound in init-keybindings.el.
 
 ;;----------------------------------------------------------------------------
 ;; Browse current HTML file
@@ -122,6 +95,169 @@
   arg lines up."
   (interactive "*p")
   (move-text-internal (- arg)))
+
+;;----------------------------------------------------------------------------
+;; Movement / window helpers (merged from the former init-platform.el).
+;; Bound in init-keybindings.el.
+;;----------------------------------------------------------------------------
+
+(setq kill-buffer-query-functions
+  (remq 'process-kill-buffer-query-function
+        kill-buffer-query-functions))
+
+(defun contextual-backspace ()
+  "Hungry whitespace or delete word depending on context."
+  (interactive)
+  (if (looking-back "[[:space:]\n]\\{2,\\}" (- (point) 2))
+      (while (looking-back "[[:space:]\n]" (- (point) 1))
+        (delete-char -1))
+    (cond
+     ((and (boundp 'smartparens-strict-mode)
+           smartparens-strict-mode)
+      (sp-backward-kill-word 1))
+     ((and (boundp 'subword-mode)
+           subword-mode)
+      (subword-backward-kill 1))
+     (t
+      (backward-kill-word 1)))))
+
+
+;; Camel / Uncamel cases
+(defun toggle-identifier-naming-style ()
+  "Toggles the symbol at point between C-style naming,
+  e.g. `hello_world_string', and camel case,
+  e.g. `HelloWorldString'."
+  (interactive)
+  (let* ((symbol-pos (bounds-of-thing-at-point 'symbol))
+         case-fold-search symbol-at-point cstyle regexp func)
+    (unless symbol-pos
+      (error "No symbol at point"))
+    (save-excursion
+      (narrow-to-region (car symbol-pos) (cdr symbol-pos))
+      (setq cstyle (string-match-p "_" (buffer-string))
+            regexp (if cstyle "\\(?:\\_<\\|_\\)\\(\\w\\)" "\\([A-Z]\\)")
+            func (if cstyle
+                     'capitalize
+                   (lambda (s)
+                     (concat (if (= (match-beginning 1)
+                                    (car symbol-pos))
+                                 ""
+                               "_")
+                             (downcase s)))))
+      (goto-char (point-min))
+      (while (re-search-forward regexp nil t)
+        (replace-match (funcall func (match-string 1))
+                       t nil))
+      (widen))))
+
+(defadvice term-sentinel (around my-advice-term-sentinel (proc msg))
+  "Kill term buffer when term is ended."
+  (if (memq (process-status proc) '(signal exit))
+      (let ((buffer (process-buffer proc)))
+        ad-do-it
+        (kill-buffer buffer))
+    ad-do-it))
+
+(defun switch-to-buffer-other-buffer ()
+  ""
+  (interactive)
+  (switch-to-buffer (other-buffer)))
+
+;; Windows Cycling
+(defun windmove-up-cycle()
+  (interactive)
+  (condition-case nil (windmove-up)
+    (error (condition-case nil (windmove-down)
+		          (error (condition-case nil (windmove-right) (error (condition-case nil (windmove-left) (error (windmove-up))))))))))
+
+(defun windmove-down-cycle()
+  (interactive)
+  (condition-case nil (windmove-down)
+    (error (condition-case nil (windmove-up)
+		          (error (condition-case nil (windmove-left) (error (condition-case nil (windmove-right) (error (windmove-down))))))))))
+
+(defun windmove-right-cycle()
+  (interactive)
+  (condition-case nil (windmove-right)
+    (error (condition-case nil (windmove-left)
+		          (error (condition-case nil (windmove-up) (error (condition-case nil (windmove-down) (error (windmove-right))))))))))
+
+(defun windmove-left-cycle()
+  (interactive)
+  (condition-case nil (windmove-left)
+    (error (condition-case nil (windmove-right)
+		          (error (condition-case nil (windmove-down) (error (condition-case nil (windmove-up) (error (windmove-left))))))))))
+
+;; Buffer swaping
+(defun buffer-up-swap()
+  (interactive)
+  (let ((current-window (selected-window))
+	(current-buffer (buffer-name))
+	(swaped-window nil)
+	(swaped-buffer nil))
+	(progn (windmove-up-cycle)
+	 (setq swaped-window (selected-window))
+	 (setq swaped-buffer (buffer-name))
+	 (if (and (not (string= swaped-buffer current-buffer)))
+	     (progn (set-window-buffer swaped-window current-buffer)
+		    (set-window-buffer current-window swaped-buffer))))))
+
+(defun buffer-down-swap()
+  (interactive)
+  (let ((current-window (selected-window))
+	(current-buffer (buffer-name))
+	(swaped-window nil)
+	(swaped-buffer nil))
+	(progn (windmove-down-cycle)
+	 (setq swaped-window (selected-window))
+	 (setq swaped-buffer (buffer-name))
+	 (if (and (not (string= swaped-buffer current-buffer)))
+	     (progn (set-window-buffer swaped-window current-buffer)
+		    (set-window-buffer current-window swaped-buffer))))))
+
+(defun buffer-right-swap()
+  (interactive)
+  (let ((current-window (selected-window))
+	(current-buffer (buffer-name))
+	(swaped-window nil)
+	(swaped-buffer nil))
+	(progn (windmove-right-cycle)
+	 (setq swaped-window (selected-window))
+	 (setq swaped-buffer (buffer-name))
+	 (if (and (not (string= swaped-buffer current-buffer)))
+	     (progn (set-window-buffer swaped-window current-buffer)
+		    (set-window-buffer current-window swaped-buffer))))))
+
+(defun buffer-left-swap()
+  (interactive)
+  (let ((current-window (selected-window))
+	(current-buffer (buffer-name))
+	(swaped-window nil)
+	(swaped-buffer nil))
+	(progn (windmove-left-cycle)
+	 (setq swaped-window (selected-window))
+	 (setq swaped-buffer (buffer-name))
+	 (if (and (not (string= swaped-buffer current-buffer)))
+	     (progn (set-window-buffer swaped-window current-buffer)
+		    (set-window-buffer current-window swaped-buffer))))))
+
+;; Window Dedicated Toggle Function
+(defun toggle-dedicated-window ()
+  (interactive)
+  (let ((d (window-dedicated-p (selected-window))))
+    (progn (set-window-dedicated-p (selected-window) (not d))
+	   (if d (message "Window is not dedicated") (message "Window is now dedicated")))))
+
+;; ---------------------------------------------------------------------------
+;; Programming-mode baseline (rainbow-delimiters is set up in init-ui)
+;; ---------------------------------------------------------------------------
+(defun my-code-mode-init ()
+  "Baseline conveniences for every programming buffer."
+  (electric-indent-local-mode 1)
+  (electric-pair-local-mode 1)
+  (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
+
+(add-hook 'prog-mode-hook #'my-code-mode-init)
 
 (provide 'init-utils)
 ;;; init-utils.el ends here

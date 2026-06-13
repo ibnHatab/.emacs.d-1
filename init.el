@@ -28,23 +28,22 @@
 ;; Package system + use-package (see init-elpa)
 ;; ---------------------------------------------------------------------------
 (require 'init-elpa)
-(require 'init-utils)
+(require 'init-utils)         ; free functions + movement/window helpers
 
 ;; ---------------------------------------------------------------------------
 ;; Modules
 ;; ---------------------------------------------------------------------------
-(require 'init-platform)      ; movement/window helpers used by keybindings
 (require 'init-ui)            ; theme, modeline, fonts, line numbers
 (require 'init-completion)    ; vertico/consult/marginalia/orderless/corfu
-(require 'init-editing)       ; mc, expand-region, yasnippet, ace-jump, undo
+(require 'init-editing)       ; mc, expand-region, yasnippet, avy, undo
 (require 'init-project)       ; projectile, magit, git-gutter, ag
 (require 'init-keybindings)   ; global keys (after the above are loaded)
 (require 'init-flycheck)
-(require 'init-git)
 (require 'init-org)
 (require 'init-go)
 (require 'init-python)
 (require 'init-cpp)
+(require 'init-haskell)
 (require 'init-claude)        ; claude-code-ide + MCP
 
 ;; ---------------------------------------------------------------------------
@@ -75,7 +74,6 @@
 (add-to-list 'auto-mode-alist '("\\.launch\\'" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.aidl\\'"   . idl-mode))
 (add-to-list 'auto-mode-alist '("\\.ino\\'"    . c++-mode))
-(add-to-list 'auto-mode-alist '("\\.m\\'"      . octave-mode))
 
 (ad-activate 'term-sentinel)
 

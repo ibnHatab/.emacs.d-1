@@ -1,33 +1,17 @@
-;;; init-org.el -- org-mode related stuff
-;;;
-;;; Code: down below
-;;;
-;;; Commentary: org-mode dependent configuration and packages
-
-;; Begin org-mode related packages
-
-(use-package org-re-reveal
-  :ensure t
-  :config
-  (setq org-re-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/"))
+;;; init-org.el --- org-mode related stuff -*- lexical-binding: t; -*-
+;;; Commentary:
+;; org-mode editing niceties.  GTD/agenda/capture and the reveal.js exporter
+;; were removed; this keeps only htmlize, org-bullets, babel and org-tempo.
+;;; Code:
 
 (use-package htmlize
   :ensure t)
-
-;; (use-package ox-rst
-;;   :ensure t)
-;(require 'ox-rst)
 
 (use-package org-bullets
   :after org
   :ensure t
   :config
   (add-hook 'org-mode-hook 'org-bullets-mode))
-
-(use-package org-pomodoro
-  :bind ("C-x C-p" . org-pomodoro)
-  :ensure t)
-;; End org-mode related packages
 
 (with-eval-after-load 'org
   (org-babel-do-load-languages 'org-babel-load-languages '((python . t) (ruby . t) (shell . t) (C . t))))
@@ -36,27 +20,6 @@
 
 (when (version< "9.1.4" (org-version))
   (add-to-list 'org-modules 'org-tempo))
-
-(setq gtd-file "~/org/gtd.org")
-(setq work-status-file "~/org/work_status.org")
-(setq org-agenda-files `(,gtd-file ,work-status-file))
-
-(global-set-key (kbd "C-c o")
-                (lambda () (interactive) (find-file gtd-file)))
-(global-set-key (kbd "C-c w")
-                (lambda () (interactive) (find-file work-status-file)))
-(global-set-key (kbd "C-c c") 'org-capture)
-(global-set-key (kbd "C-c a") 'org-agenda)
-
-(setq org-default-notes-file gtd-file)
-
-(setq org-refile-targets '((org-agenda-files . (:maxlevel . 3))))
-(provide 'init-org)
-(setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file+headline gtd-file "Tasks")
-                               "* TODO %i%?")))
-
-(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "REVIEWING(r)" "NEXT(n)" "|" "DONE(d)" "CANCELLED(c)")))
 
 (provide 'init-org)
 ;;; init-org.el ends here

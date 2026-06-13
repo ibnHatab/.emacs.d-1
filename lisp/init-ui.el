@@ -31,15 +31,15 @@
   (doom-modeline-icon (display-graphic-p)))
 
 ;; ---------------------------------------------------------------------------
-;; Line numbers (built-in; replaces the old linum-off.el)
+;; Left-margin real estate
 ;; ---------------------------------------------------------------------------
-(setq-default display-line-numbers-width 3)
-(dolist (hook '(prog-mode-hook conf-mode-hook))
-  (add-hook hook #'display-line-numbers-mode))
-;; Explicitly off where it adds noise.
-(dolist (hook '(org-mode-hook text-mode-hook term-mode-hook
-                shell-mode-hook eshell-mode-hook compilation-mode-hook))
-  (add-hook hook (lambda () (display-line-numbers-mode -1))))
+;; Line numbers are OFF everywhere to reclaim the ~3-4 columns they reserve.
+;; Toggle on demand with M-x display-line-numbers-mode.
+;;
+;; Fringes: keep a small LEFT fringe (bm bookmarks + git-gutter draw there in a
+;; GUI) and drop the RIGHT fringe entirely.  4px ≈ half a char, enough for the
+;; bookmark/diff markers without eating a full column.
+(fringe-mode '(4 . 0))
 
 ;; ---------------------------------------------------------------------------
 ;; Fonts (Hack), with s-=/s-- to resize on the fly
@@ -67,12 +67,22 @@
 (global-set-key (kbd "s--") #'my/decrease-font-height)
 
 ;; Apply the base font once a graphical frame exists.
+;; Use a single font spec that carries the size ("Hack-14"); passing both
+;; :font and :height to set-face-attribute is unreliable because the font
+;; string carries its own size and clobbers :height.
+(defvar my/default-font "Hack-14"
+  "Default font spec applied to graphical frames.")
+
 (defun my/apply-default-font (&optional frame)
-  "Apply the Hack font to FRAME (or the current frame) when on a GUI."
+  "Apply `my/default-font' to FRAME (or the selected frame) when on a GUI."
   (when (display-graphic-p frame)
-    (set-face-attribute 'default frame :font "Hack" :height 150)))
+    (set-face-attribute 'default (or frame (selected-frame))
+                        :font my/default-font)))
+
+;; Cover three cases: the initial frame, future frames, and the daemon case.
+(add-to-list 'default-frame-alist `(font . ,my/default-font))
 (add-hook 'after-make-frame-functions #'my/apply-default-font)
-(add-hook 'window-setup-hook #'my/apply-default-font)
+(my/apply-default-font)
 
 ;; ---------------------------------------------------------------------------
 ;; Misc visual niceties

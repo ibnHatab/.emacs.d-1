@@ -44,15 +44,27 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-z")     'zap-up-to-char)
-(global-set-key (kbd "C-a")     'smart-line-beginning)
+(global-set-key (kbd "C-a")     'crux-move-beginning-of-line)
 
 ;; Undo / redo (undo-tree provides redo; no more redo.el).
 (global-set-key (kbd "C-z")        'undo-tree-undo)
 (global-set-key [M-backspace]      'undo-tree-undo)
 (global-set-key [M-return]         'undo-tree-redo)
 
-;; Duplicate line
-(global-set-key (kbd "C-c C-d") "\C-a\C- \C-n\M-w\C-y\C-p\C-a")
+;; Editing conveniences via crux (replaces the old fragile kbd-macro string
+;; that was bound to C-c C-d for duplicating a line).
+(use-package crux
+  :ensure t
+  :bind (("C-c C-d"   . crux-duplicate-current-line-or-region)        ; was a kbd macro
+         ("C-c M-d"   . crux-duplicate-and-comment-current-line-or-region)
+         ([remap kill-line] . crux-smart-kill-line)                   ; C-k: kill to EOL, then whole line
+         ("C-S-k"     . crux-kill-whole-line)
+         ("M-o"       . crux-smart-open-line)                         ; open line below, indented
+         ("C-M-o"     . crux-smart-open-line-above)
+         ("C-c r"     . crux-rename-file-and-buffer)
+         ("C-c D"     . crux-delete-file-and-buffer)
+         ("C-c k"     . crux-kill-other-buffers)
+         ("C-^"       . crux-top-join-line)))                         ; join next line up
 
 ;; ---------------------------------------------------------------------------
 ;; Window / buffer management (super key)
@@ -76,6 +88,11 @@
 (global-set-key [s-down]  'windmove-down-cycle)
 
 (global-set-key (kbd "C-x x") 'delete-window)
+
+;; Treemacs (also set via use-package :bind in init-project; duplicated here so
+;; the bindings survive even if that block isn't re-evaluated).
+(global-set-key (kbd "s-s") 'treemacs)
+(global-set-key (kbd "s-S") 'treemacs-select-directory)
 
 ;; ---------------------------------------------------------------------------
 ;; Git

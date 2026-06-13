@@ -28,15 +28,38 @@
 (use-package vertico
   :ensure nil
   :demand t
+  ;; The sort functions live in the vertico-sort extension; require it so
+  ;; `vertico-sort-history-length-alpha' is bound before we reference it.
+  :init (require 'vertico-sort)
   :custom
   (vertico-cycle t)
-  (vertico-count 15)
-  :config (vertico-mode))
+  (vertico-count 15)            ; show up to 15 candidate lines...
+  (vertico-resize nil)          ; ...and keep that height fixed (don't shrink
+                                ; to 3 lines for short lists)
+  ;; Sort candidates by history (MRU) first, then length, then alpha.  This is
+  ;; vertico's default, set explicitly so the M-x most-recently-used ordering
+  ;; is documented and stable; it pairs with savehist persisting the history.
+  (vertico-sort-function #'vertico-sort-history-length-alpha)
+  :config
+  (vertico-mode)
+  ;; The minibuffer window must be allowed to grow tall enough to show the
+  ;; candidates; a low `max-mini-window-height' is what caps the list at ~3.
+  (setq resize-mini-windows t
+        max-mini-window-height 0.4))
 
 ;; Save minibuffer history (used by vertico to surface recent picks first).
+;; Persisting `extended-command-history' is what makes M-x list your
+;; most-recently-used commands at the top across restarts; vertico's default
+;; sort (history, then length, then alpha) does the rest.
 (use-package savehist
   :ensure nil
-  :init (savehist-mode))
+  :init (savehist-mode)
+  :custom
+  (history-length 1000)
+  (savehist-additional-variables '(extended-command-history
+                                   kill-ring
+                                   search-ring
+                                   regexp-search-ring)))
 
 ;; ---------------------------------------------------------------------------
 ;; Orderless: space-separated, order-independent fuzzy matching
@@ -63,13 +86,18 @@
   :ensure nil
   :demand t
   :bind (("C-x b"     . consult-buffer)            ; was helm-buffers-list
-         ([C-escape]  . consult-buffer)            ; was helm-buffers-list
+         ("C-`"       . consult-buffer)            ; buffer list (was C-escape)
          ("M-s o"     . consult-line)              ; was helm-occur
          ("M-y"       . consult-yank-pop)
          ("C-x r b"   . consult-bookmark)
          ("M-g g"     . consult-goto-line)
          ("M-g i"     . consult-imenu)
-         ("C-c f"     . consult-ripgrep))
+         ("C-c f"     . consult-ripgrep)
+         ;; Inside the minibuffer, C-` must NOT re-invoke consult-buffer (that
+         ;; opens a minibuffer within a minibuffer -> "Command attempted to use
+         ;; minibuffer while in minibuffer").  Make it abort the current prompt.
+         (:map minibuffer-local-map
+          ("C-`" . abort-recursive-edit)))
   :custom
   (consult-narrow-key "<")
   (xref-show-xrefs-function #'consult-xref)

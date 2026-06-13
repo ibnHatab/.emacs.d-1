@@ -40,9 +40,13 @@
 ;; ---------------------------------------------------------------------------
 ;; Jumping around
 ;; ---------------------------------------------------------------------------
-(use-package ace-jump-mode
+;; avy replaces the unmaintained ace-jump-mode (which pulled in the deprecated
+;; `cl' compatibility library).  C-\ preserved; type a few chars then a hint.
+(use-package avy
   :ensure t
-  :bind ("C-\\" . ace-jump-mode))
+  :bind (("C-\\"  . avy-goto-char-timer)
+         ("M-g w" . avy-goto-word-1)
+         ("M-g l" . avy-goto-line)))
 
 ;; ---------------------------------------------------------------------------
 ;; Undo history (visual + persistent)
@@ -64,16 +68,38 @@
   :bind ("M-;" . comment-dwim-2))
 
 ;; ---------------------------------------------------------------------------
+;; VSCode-style buffer cycling: C-Tab walks the most-recently-used buffer
+;; stack (shown as a horizontal list in the echo area); C-S-Tab goes back.
+;; The order isn't committed until you stop flipping, so repeated C-Tab keeps
+;; walking further back in time -- the "hold Ctrl, tap Tab" feel.
+;; ---------------------------------------------------------------------------
+(use-package iflipb
+  :ensure t
+  :bind (("C-<tab>"   . iflipb-next-buffer)
+         ("C-S-<tab>" . iflipb-previous-buffer)
+         ("C-S-<iso-lefttab>" . iflipb-previous-buffer)) ; X11 alt for C-S-Tab
+  :custom
+  (iflipb-wrap-around t)                 ; cycle past the ends
+  (iflipb-ignore-buffers '("^ "          ; internal/space-prefixed buffers
+                           "^\\*helm" "^\\*Echo" "^\\*Minibuf"
+                           "^\\*Completions" "^\\*scratch")))
+
+;; ---------------------------------------------------------------------------
 ;; Symbol highlighting (f3 family)
 ;; ---------------------------------------------------------------------------
-(use-package highlight-symbol
+;; symbol-overlay replaces the old (unmaintained) highlight-symbol package.
+;; symbol-overlay-mode auto-highlights the symbol at point after a short idle
+;; and reliably updates as you move between symbols.  f3 family preserved:
+;;   C-f3 toggle a sticky highlight, f3/S-f3 jump next/prev, M-f3 rename.
+(use-package symbol-overlay
   :ensure t
   :diminish ""
-  :custom (highlight-symbol-idle-delay 1.5)
-  :bind (([(control f3)] . highlight-symbol)
-         ([f3]           . highlight-symbol-next)
-         ([(shift f3)]   . highlight-symbol-prev)
-         ([(meta f3)]    . highlight-symbol-query-replace)))
+  :hook (prog-mode . symbol-overlay-mode)
+  :custom (symbol-overlay-idle-time 1.0)
+  :bind (([(control f3)] . symbol-overlay-put)
+         ([f3]           . symbol-overlay-jump-next)
+         ([(shift f3)]   . symbol-overlay-jump-prev)
+         ([(meta f3)]    . symbol-overlay-rename)))
 
 ;; ---------------------------------------------------------------------------
 ;; Visual bookmarks (f2 family)
@@ -90,7 +116,7 @@
   (add-hook 'after-init-hook #'bm-repository-load)
   (add-hook 'kill-buffer-hook #'bm-buffer-save)
   (add-hook 'after-save-hook #'bm-buffer-save)
-  (add-hook 'find-file-hooks #'bm-buffer-restore)
+  (add-hook 'find-file-hook #'bm-buffer-restore)
   (add-hook 'after-revert-hook #'bm-buffer-restore)
   (add-hook 'vc-before-checkin-hook #'bm-buffer-save)
   (add-hook 'kill-emacs-hook (lambda () (bm-buffer-save-all) (bm-repository-save)))

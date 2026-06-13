@@ -56,12 +56,20 @@
   :commands (wgrep-ag-setup))
 
 ;; ---------------------------------------------------------------------------
-;; Tree view
+;; Tree view (treemacs replaces the unmaintained neotree)
 ;; ---------------------------------------------------------------------------
-(use-package neotree
+(use-package treemacs
   :ensure t
   :defer t
-  :bind ("s-s" . neotree-toggle))
+  :bind (("s-s" . treemacs)                    ; toggle on the current root
+         ("s-S" . treemacs-select-directory))  ; prompt for a new dir, then show
+  :custom
+  (treemacs-width 32)
+  (treemacs-follow-after-init t)
+  :config
+  (treemacs-follow-mode 1)        ; keep the tree in sync with the open buffer
+  (treemacs-filewatch-mode 1)     ; refresh on external file changes
+  (treemacs-git-mode 'simple))    ; show git status in the tree
 
 ;; ---------------------------------------------------------------------------
 ;; TRAMP (remote editing)
@@ -69,8 +77,14 @@
 (use-package tramp
   :ensure nil
   :defer t
-  :custom (tramp-default-method "ssh")
-  :config (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash")))
+  :custom
+  (tramp-default-method "ssh")
+  ;; Use bash on the remote without the old global (setenv "SHELL" ...) hack,
+  ;; which changed the shell for all of Emacs rather than just TRAMP.
+  (tramp-default-remote-shell "/bin/bash")
+  :config
+  ;; Honour the remote user's PATH so remote programs are found.
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
 (provide 'init-project)
 ;;; init-project.el ends here
