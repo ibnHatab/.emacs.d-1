@@ -39,6 +39,10 @@ recentf
 # savehist runtime file
 /history
 
+# undo history (undohist; was undo-tree-history)
+/undohist/
+/undo-tree-history/
+
 # native-comp / eln cache
 /eln-cache/
 

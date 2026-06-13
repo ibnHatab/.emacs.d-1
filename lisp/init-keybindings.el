@@ -97,7 +97,7 @@
 ;; ---------------------------------------------------------------------------
 ;; Git
 ;; ---------------------------------------------------------------------------
-(global-set-key (kbd "C-x ?") 'vc-git-grep)
+;; C-x ? -> consult-git-grep (set in the consult block, init-completion.el).
 
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here

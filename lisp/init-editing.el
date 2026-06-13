@@ -123,9 +123,13 @@
   (add-hook 'after-revert-hook #'bm-buffer-restore)
   (add-hook 'vc-before-checkin-hook #'bm-buffer-save)
   (add-hook 'kill-emacs-hook (lambda () (bm-buffer-save-all) (bm-repository-save)))
+  ;; bm marks are a SEPARATE system from Emacs bookmark.el (which
+  ;; consult-bookmark reads), so they never show up there.  M-f2 lists the bm
+  ;; marks across all buffers in a navigable buffer.
   :bind (("<f2>"   . bm-next)
          ("S-<f2>" . bm-previous)
          ("C-<f2>" . bm-toggle)
+         ("M-<f2>" . bm-show-all)
          ("<left-fringe> <mouse-1>" . bm-toggle-mouse)))
 
 ;; ---------------------------------------------------------------------------

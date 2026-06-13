@@ -28,6 +28,9 @@
 
 ;; diff-hl replaces git-gutter: better maintained, refreshes with magit, and
 ;; renders in the fringe (or margin in a terminal).
+;; Hunk keys live under the C-x v (VC) prefix; the old git-gutter bindings on
+;; bare C-x p / C-x n / C-x r were shadowing the project / narrow / register
+;; prefix maps and are NOT reused here.
 (use-package diff-hl
   :ensure t
   :hook ((prog-mode . diff-hl-mode)
@@ -36,18 +39,19 @@
          (magit-post-refresh . diff-hl-magit-post-refresh))
   :bind (("C-x C-g" . diff-hl-mode)
          ("C-x v =" . diff-hl-show-hunk)
-         ("C-x p"   . diff-hl-previous-hunk)
-         ("C-x n"   . diff-hl-next-hunk)
-         ("C-x r"   . diff-hl-revert-hunk))
+         ("C-x v n" . diff-hl-next-hunk)
+         ("C-x v p" . diff-hl-previous-hunk)
+         ("C-x v r" . diff-hl-revert-hunk))
   :config (global-diff-hl-mode))
 
 ;; ---------------------------------------------------------------------------
-;; Search: ag + wgrep (editable results)
+;; Search: ag + wgrep (editable results).  Interactive search now goes through
+;; consult-ripgrep (f9, see init-completion); ag stays as M-x for wgrep-ag
+;; editable bulk edits.
 ;; ---------------------------------------------------------------------------
 (use-package ag
   :ensure t
   :commands (ag ag-project)
-  :bind ("<f9>" . ag)
   :custom
   (ag-highlight-search t)
   (ag-reuse-buffers t)

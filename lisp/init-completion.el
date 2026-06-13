@@ -72,14 +72,22 @@
 (use-package consult
   :ensure t
   :demand t
-  :bind (("C-x b"     . consult-buffer)            ; was helm-buffers-list
+  :bind (;; Buffers / navigation
+         ("C-x b"     . consult-buffer)            ; was helm-buffers-list
          ("C-`"       . consult-buffer)            ; buffer list (was C-escape)
-         ("M-s o"     . consult-line)              ; was helm-occur
+         ("C-x p b"   . consult-project-buffer)    ; buffers in this project
          ("M-y"       . consult-yank-pop)
-         ("C-x r b"   . consult-bookmark)
+         ("C-x r b"   . consult-bookmark)          ; Emacs bookmarks (not bm/f2)
          ("M-g g"     . consult-goto-line)
          ("M-g i"     . consult-imenu)
-         ("C-c f"     . consult-ripgrep)
+         ("M-g m"     . consult-mark)              ; jump within the mark ring
+         ("M-g f"     . consult-flycheck)          ; jump to a flycheck error
+         ;; In-buffer / project search
+         ("M-s o"     . consult-line)              ; was helm-occur
+         ("M-s L"     . consult-line-multi)        ; search across all buffers
+         ("<f9>"      . consult-ripgrep)           ; project grep (was ag)
+         ("C-c f"     . consult-ripgrep)           ; same, on the old key too
+         ("C-x ?"     . consult-git-grep)          ; was vc-git-grep
          ;; Inside the minibuffer, C-` must NOT re-invoke consult-buffer (that
          ;; opens a minibuffer within a minibuffer -> "Command attempted to use
          ;; minibuffer while in minibuffer").  Make it abort the current prompt.
@@ -89,6 +97,12 @@
   (consult-narrow-key "<")
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref))
+
+;; consult-flycheck: M-g f browses flycheck diagnostics via consult.
+(use-package consult-flycheck
+  :ensure t
+  :after (consult flycheck)
+  :commands consult-flycheck)
 
 ;; ---------------------------------------------------------------------------
 ;; Embark: act on the thing at point / in the minibuffer
