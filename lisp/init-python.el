@@ -1,8 +1,9 @@
 ;;; init-python.el --- Python support -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Python editing via elpy.  Uses ipython as the shell when available, falling
-;; back to plain python3 otherwise.  Formatting with py-yapf, folding via
-;; hideshow.
+;; Python editing via lsp-mode + pyright (replaces elpy).  pyright provides
+;; completion, navigation and type checking; format with py-yapf, fold via
+;; hideshow.  Requires the `pyright' language server on PATH
+;; (npm install -g pyright).
 ;;; Code:
 
 (use-package py-yapf :ensure t :defer t)
@@ -21,13 +22,15 @@
         tab-width 4
         python-indent-offset 4))
 
-(use-package elpy
+;; pyright via lsp-mode.  lsp-pyright registers the client; lsp-deferred starts
+;; it when a Python buffer opens, feeding completion into corfu/cape.
+(use-package lsp-pyright
   :ensure t
-  :after python
-  :init (advice-add 'python-mode :before #'elpy-enable)
-  :config
-  ;; Let flycheck handle linting instead of elpy's flymake.
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp-deferred)))
+  :custom
+  (lsp-pyright-typechecking-mode "basic"))
 
 (add-hook 'python-mode-hook #'hs-minor-mode)
 

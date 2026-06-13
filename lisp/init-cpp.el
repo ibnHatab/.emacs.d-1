@@ -2,29 +2,19 @@
 ;;; Commentary:
 ;; C/C++ IDE support built around clangd + compile_commands.json (compdb).
 ;; lsp-mode feeds completion into the corfu/cape stack (see init-completion.el).
-;;
-;; lsp-mode/lsp-ui latest releases require Emacs >= 29.1; we run 28.1, so the
-;; last 28-compatible tags are pinned under site-lisp/.  Their package
-;; dependencies still come from package.el.
+;; lsp-mode/lsp-ui install from MELPA on Emacs 30.
 ;;; Code:
-
-(let ((site (expand-file-name "site-lisp" user-emacs-directory)))
-  (dolist (d '("lsp-mode" "lsp-mode/clients" "lsp-ui"))
-    (let ((dir (expand-file-name d site)))
-      (when (file-directory-p dir) (add-to-list 'load-path dir)))))
-
-(dolist (dep '(dash f ht spinner markdown-mode lv))
-  (unless (package-installed-p dep)
-    (ignore-errors (package-install dep))))
 
 ;; lsp-mode: clangd discovers compile_commands.json by walking up from the
 ;; source file, so no compdb path config is needed here.
 (use-package lsp-mode
-  :ensure nil
+  :ensure t
   :hook ((c-mode c++-mode) . lsp-deferred)
   :commands (lsp lsp-deferred)
   :custom
   (lsp-ui-doc-enable nil)
+  ;; Use clangd (not ccls) for C/C++: it reads compile_commands.json directly.
+  (lsp-disabled-clients '(ccls))
   ;; Let clangd insert headers itself; -j and background indexing keep
   ;; completion responsive on large compdb projects.
   (lsp-clients-clangd-args '("--header-insertion=iwyu"
@@ -33,7 +23,7 @@
                              "--header-insertion-decorators=0")))
 
 (use-package lsp-ui
-  :ensure nil
+  :ensure t
   :commands lsp-ui-mode)
 
 (use-package cmake-mode

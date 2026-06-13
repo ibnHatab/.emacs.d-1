@@ -26,14 +26,20 @@
   (magit-branch-arguments nil)
   (magit-push-always-verify nil))
 
-(use-package git-gutter
+;; diff-hl replaces git-gutter: better maintained, refreshes with magit, and
+;; renders in the fringe (or margin in a terminal).
+(use-package diff-hl
   :ensure t
-  :defer t
-  :bind (("C-x C-g" . git-gutter:toggle)
-         ("C-x v =" . git-gutter:popup-hunk)
-         ("C-x p"   . git-gutter:previous-hunk)
-         ("C-x n"   . git-gutter:next-hunk)
-         ("C-x r"   . git-gutter:revert-hunk)))
+  :hook ((prog-mode . diff-hl-mode)
+         (dired-mode . diff-hl-dired-mode)
+         (magit-pre-refresh  . diff-hl-magit-pre-refresh)
+         (magit-post-refresh . diff-hl-magit-post-refresh))
+  :bind (("C-x C-g" . diff-hl-mode)
+         ("C-x v =" . diff-hl-show-hunk)
+         ("C-x p"   . diff-hl-previous-hunk)
+         ("C-x n"   . diff-hl-next-hunk)
+         ("C-x r"   . diff-hl-revert-hunk))
+  :config (global-diff-hl-mode))
 
 ;; ---------------------------------------------------------------------------
 ;; Search: ag + wgrep (editable results)

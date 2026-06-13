@@ -49,16 +49,19 @@
          ("M-g l" . avy-goto-line)))
 
 ;; ---------------------------------------------------------------------------
-;; Undo history (visual + persistent)
+;; Undo history: vundo (lightweight visual tree over Emacs' built-in undo)
+;; replaces undo-tree, which was heavy and prone to corrupting its history.
 ;; ---------------------------------------------------------------------------
-(use-package undo-tree
+(use-package vundo
   :ensure t
-  :diminish undo-tree-mode
-  :init (global-undo-tree-mode)
+  :bind ("C-x u" . vundo)
+  :custom (vundo-glyph-alist vundo-unicode-symbols))
+;; Persist built-in undo across sessions (the feature undo-tree gave us).
+(use-package undohist
+  :ensure t
+  :init (undohist-initialize)
   :custom
-  (undo-tree-auto-save-history t)
-  (undo-tree-history-directory-alist
-   `(("." . ,(expand-file-name "undo-tree-history" user-emacs-directory)))))
+  (undohist-directory (expand-file-name "undohist" user-emacs-directory)))
 
 ;; ---------------------------------------------------------------------------
 ;; Commenting
@@ -130,7 +133,6 @@
 ;; ---------------------------------------------------------------------------
 (use-package which-key :ensure t :diminish "" :config (which-key-mode))
 (use-package popwin    :ensure t :config (popwin-mode 1))
-(use-package writegood-mode :ensure t :defer t)
 (use-package yaml-mode :ensure t :defer t)
 (use-package protobuf-mode :ensure t :defer t)
 
@@ -151,13 +153,8 @@
     (setenv "PATH" (concat nvm-bin path-separator (getenv "PATH")))))
 
 ;; markdown-mermaid.el: render ```mermaid``` blocks via the mmdc CLI.
-;; Pinned git checkout under site-lisp/ (no MELPA/`:vc` needed on Emacs 28).
-(let ((dir (expand-file-name "site-lisp/markdown-mermaid" user-emacs-directory)))
-  (when (file-directory-p dir)
-    (add-to-list 'load-path dir)))
-
 (use-package markdown-mermaid
-  :ensure nil
+  :ensure t
   :after markdown-mode
   :commands (markdown-mermaid-preview)
   :bind (:map markdown-mode-map

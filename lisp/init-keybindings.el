@@ -46,10 +46,10 @@
 (global-set-key (kbd "M-z")     'zap-up-to-char)
 (global-set-key (kbd "C-a")     'crux-move-beginning-of-line)
 
-;; Undo / redo (undo-tree provides redo; no more redo.el).
-(global-set-key (kbd "C-z")        'undo-tree-undo)
-(global-set-key [M-backspace]      'undo-tree-undo)
-(global-set-key [M-return]         'undo-tree-redo)
+;; Undo / redo (built-in undo + undo-redo; visualize the tree with C-x u / vundo).
+(global-set-key (kbd "C-z")        'undo)
+(global-set-key [M-backspace]      'undo)
+(global-set-key [M-return]         'undo-redo)
 
 ;; Editing conveniences via crux (replaces the old fragile kbd-macro string
 ;; that was bound to C-c C-d for duplicating a line).
