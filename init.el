@@ -46,6 +46,11 @@
 (require 'init-haskell)
 (require 'init-claude)        ; claude-code-ide + MCP
 
+;; artheia .art DSL — local/artheia-mode.el (major mode + lsp-mode client).
+;; lsp-deferred auto-starts artheia-lsp on open, matching the cpp/python setup.
+(require 'artheia-mode)
+(add-hook 'artheia-mode-hook #'lsp-deferred)
+
 ;; ---------------------------------------------------------------------------
 ;; Sensible global defaults
 ;; ---------------------------------------------------------------------------
