@@ -14,6 +14,25 @@
   :ensure t
   :defer t)
 
+;; VSCode-style terminal toggle: C-` shows the vterm; pressing it again hides
+;; it (and from inside the vterm it switches back to the previous buffer).
+;; This replaces the former C-` -> consult-buffer alias (see init-completion.el).
+(use-package vterm-toggle
+  :ensure t
+  :bind (("C-`" . vterm-toggle)
+         :map vterm-mode-map
+         ("C-`" . vterm-toggle))
+  :custom
+  ;; Reuse a single terminal window at the bottom, like VSCode's panel.
+  (vterm-toggle-fullscreen-p nil)
+  :config
+  (add-to-list 'display-buffer-alist
+               '((lambda (bufname _) (with-current-buffer bufname
+                                       (equal major-mode 'vterm-mode)))
+                 (display-buffer-reuse-window display-buffer-at-bottom)
+                 (reusable-frames . visible)
+                 (window-height . 0.3))))
+
 ;; WebSocket transport for the MCP server.
 (use-package websocket
   :ensure t

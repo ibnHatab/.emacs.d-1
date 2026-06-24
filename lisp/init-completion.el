@@ -74,7 +74,8 @@
   :demand t
   :bind (;; Buffers / navigation
          ("C-x b"     . consult-buffer)            ; was helm-buffers-list
-         ("C-`"       . consult-buffer)            ; buffer list (was C-escape)
+         ("C-<escape>" . consult-buffer)           ; old reflex, restored
+         ;; NB: C-` is now the VSCode-style terminal toggle (see init-claude.el)
          ("C-x p b"   . consult-project-buffer)    ; buffers in this project
          ("M-y"       . consult-yank-pop)
          ("C-x r b"   . consult-bookmark)          ; Emacs bookmarks (not bm/f2)
@@ -87,12 +88,7 @@
          ("M-s L"     . consult-line-multi)        ; search across all buffers
          ("<f9>"      . consult-ripgrep)           ; project grep (was ag)
          ("C-c f"     . consult-ripgrep)           ; same, on the old key too
-         ("C-x ?"     . consult-git-grep)          ; was vc-git-grep
-         ;; Inside the minibuffer, C-` must NOT re-invoke consult-buffer (that
-         ;; opens a minibuffer within a minibuffer -> "Command attempted to use
-         ;; minibuffer while in minibuffer").  Make it abort the current prompt.
-         (:map minibuffer-local-map
-          ("C-`" . abort-recursive-edit)))
+         ("C-x ?"     . consult-git-grep))         ; was vc-git-grep
   :custom
   (consult-narrow-key "<")
   (xref-show-xrefs-function #'consult-xref)

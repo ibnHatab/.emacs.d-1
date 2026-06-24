@@ -1,6 +1,14 @@
 ;;; init-utils.el --- Various functions and utilities
 ;;; Commentary:
 ;;; Code:
+
+;;----------------------------------------------------------------------------
+;; Trust .dir-locals.el unconditionally -- if a repo has one, it's intentional.
+;; t means: apply all local variables, including `eval' forms, without asking.
+;;----------------------------------------------------------------------------
+(setq enable-local-variables t          ; apply local var lists, no prompt for known vars
+      enable-local-eval t)              ; apply `eval:' / unsafe values without prompting
+
 (if (fboundp 'with-eval-after-load)
     (defalias 'after-load 'with-eval-after-load)
   (defmacro after-load (feature &rest body)

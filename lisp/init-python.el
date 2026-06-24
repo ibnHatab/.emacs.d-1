@@ -28,8 +28,24 @@
   :ensure t
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
+                         ;; Point pyright at the project's .venv BEFORE the
+                         ;; server starts, so it resolves imports (e.g.
+                         ;; `import artheia') exactly like `.venv/bin/python'
+                         ;; does in the shell.  We walk up from the file to the
+                         ;; nearest `.venv' and pin its interpreter explicitly,
+                         ;; rather than relying on pyright's PATH default (which
+                         ;; was picking the system python).
+                         (when-let* ((base (locate-dominating-file
+                                            default-directory ".venv"))
+                                     (venv (expand-file-name ".venv" base))
+                                     (py   (expand-file-name "bin/python" venv)))
+                           (when (file-exists-p py)
+                             (setq-local lsp-pyright-venv-path venv)))
                          (lsp-deferred)))
   :custom
+  ;; Generic auto-detect: find a directory literally named `.venv' upward from
+  ;; any file.  Covers projects where the hook above is not enough.
+  (lsp-pyright-venv-directory ".venv")
   (lsp-pyright-typechecking-mode "basic"))
 
 (add-hook 'python-mode-hook #'hs-minor-mode)

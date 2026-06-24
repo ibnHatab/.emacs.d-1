@@ -20,7 +20,46 @@
   (lsp-clients-clangd-args '("--header-insertion=iwyu"
                              "--background-index"
                              "-j=4"
-                             "--header-insertion-decorators=0")))
+                             "--header-insertion-decorators=0"))
+  :config
+  ;; lsp-mode does NOT honour .gitignore for file-watching.  This helper reads
+  ;; the project's .gitignore and adds its *directory* entries to the GLOBAL
+  ;; `lsp-file-watch-ignored-directories'.  Two things matter for it to work:
+  ;;
+  ;;   * It must run on `lsp-before-initialize-hook' -- that fires BEFORE the
+  ;;     watch is registered (and before the "watch N directories?" prompt).
+  ;;     The old `lsp-after-open-hook' ran too late, so the prompt still showed.
+  ;;   * It must modify the GLOBAL value, not a buffer-local one.  lsp reads the
+  ;;     ignore list inside its own temp buffer at the workspace root
+  ;;     (`lsp--get-ignored-regexes-for-workspace-root'), so a `setq-local' in
+  ;;     the source buffer never reaches it.
+  ;;
+  ;; NOTE: watch-ignoring a dir only stops file-change *watching*; it does NOT
+  ;; hide the dir from the language server's analysis.  So ignoring /.venv/
+  ;; here does not stop pyright from using the venv -- pyright still resolves
+  ;; imports from it; we just don't burn inotify watches on it.
+  (defun my/lsp-ignore-gitignored-dirs ()
+    "Add directory patterns from the current project's .gitignore to the
+global `lsp-file-watch-ignored-directories'."
+    (when-let* ((root (locate-dominating-file default-directory ".gitignore")))
+      (with-temp-buffer
+        (insert-file-contents (expand-file-name ".gitignore" root))
+        (dolist (raw (split-string (buffer-string) "\n" t))
+          (let ((line (string-trim raw)))
+            ;; skip comments, blanks, and negations (!unignore)
+            (unless (or (string-empty-p line)
+                        (string-prefix-p "#" line)
+                        (string-prefix-p "!" line))
+              (let* ((name (replace-regexp-in-string "/+$" "" line))
+                     (base (file-name-nondirectory
+                            (replace-regexp-in-string "^/+" "" name))))
+                ;; only plain dir names, not glob/file patterns (*.pyc, core.*)
+                (when (and (not (string-empty-p base))
+                           (not (string-match-p "[*?.]" base)))
+                  (add-to-list 'lsp-file-watch-ignored-directories
+                               (concat "[/\\\\]" (regexp-quote base) "\\'"))))))))))
+  ;; Runs before watch registration, for ANY repo with a .gitignore.
+  (add-hook 'lsp-before-initialize-hook #'my/lsp-ignore-gitignored-dirs))
 
 (use-package lsp-ui
   :ensure t

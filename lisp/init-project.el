@@ -76,10 +76,13 @@
   :custom
   (treemacs-width 32)
   (treemacs-follow-after-init t)
+  (treemacs-show-hidden-files t)  ; show dotfiles (toggle live with `t h`)
   :config
   (treemacs-follow-mode 1)        ; keep the tree in sync with the open buffer
   (treemacs-filewatch-mode 1)     ; refresh on external file changes
-  (treemacs-git-mode 'simple))    ; show git status in the tree
+  (treemacs-git-mode 'simple)     ; show git status in the tree
+  ;; Single left-click expands/collapses dirs and opens files (default is double-click)
+  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
 
 ;; ---------------------------------------------------------------------------
 ;; TRAMP (remote editing)

@@ -10,7 +10,8 @@
 ;; ---------------------------------------------------------------------------
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "local" user-emacs-directory))
-(dolist (dir '("/usr/local/bin" "/usr/bin"))
+(dolist (dir (list "/usr/local/bin" "/usr/bin"
+                   (expand-file-name "~/.local/bin")))
   (add-to-list 'exec-path dir))
 
 ;; ---------------------------------------------------------------------------
