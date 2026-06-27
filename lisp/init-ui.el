@@ -70,7 +70,7 @@
 ;; Use a single font spec that carries the size ("Hack-14"); passing both
 ;; :font and :height to set-face-attribute is unreliable because the font
 ;; string carries its own size and clobbers :height.
-(defvar my/default-font "Hack-14"
+(defvar my/default-font "Hack-12"
   "Default font spec applied to graphical frames.")
 
 (defun my/apply-default-font (&optional frame)

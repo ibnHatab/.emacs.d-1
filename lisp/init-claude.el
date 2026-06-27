@@ -10,18 +10,23 @@
 ;;; Code:
 
 ;; Terminal backend used by claude-code-ide for the CLI session.
+;; The in-vterm C-` binding lives here (not on vterm-toggle) so it is applied
+;; only after vterm-mode-map actually exists; binding it on the deferred
+;; vterm-toggle package fired before vterm loaded and errored with
+;; "Symbol's value as variable is void: vterm-mode-map".
 (use-package vterm
   :ensure t
-  :defer t)
+  :defer t
+  :bind (:map vterm-mode-map
+              ("C-`" . vterm-toggle)))
 
-;; VSCode-style terminal toggle: C-` shows the vterm; pressing it again hides
-;; it (and from inside the vterm it switches back to the previous buffer).
-;; This replaces the former C-` -> consult-buffer alias (see init-completion.el).
+;; VSCode-style terminal toggle: C-` shows the vterm in the lower 25% of the
+;; frame; pressing it again hides it (and from inside the vterm it switches
+;; back to the previous buffer).  Replaces the former C-` -> consult-buffer
+;; alias (see init-completion.el).
 (use-package vterm-toggle
   :ensure t
-  :bind (("C-`" . vterm-toggle)
-         :map vterm-mode-map
-         ("C-`" . vterm-toggle))
+  :bind (("C-`" . vterm-toggle))
   :custom
   ;; Reuse a single terminal window at the bottom, like VSCode's panel.
   (vterm-toggle-fullscreen-p nil)
@@ -31,7 +36,7 @@
                                        (equal major-mode 'vterm-mode)))
                  (display-buffer-reuse-window display-buffer-at-bottom)
                  (reusable-frames . visible)
-                 (window-height . 0.3))))
+                 (window-height . 0.25))))
 
 ;; WebSocket transport for the MCP server.
 (use-package websocket
