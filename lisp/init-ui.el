@@ -70,8 +70,11 @@
 ;; Use a single font spec that carries the size ("Hack-14"); passing both
 ;; :font and :height to set-face-attribute is unreliable because the font
 ;; string carries its own size and clobbers :height.
-(defvar my/default-font "Hack-12"
-  "Default font spec applied to graphical frames.")
+(defvar my/default-font "Droid Sans Mono:pixelsize=14"
+  "Default font spec applied to graphical frames.
+Matches the VS Code editor font (family \"Droid Sans Mono\", Font Size 14,
+which VS Code measures in pixels — hence `pixelsize=14' rather than the
+point-size `-14' suffix, which would render larger).")
 
 (defun my/apply-default-font (&optional frame)
   "Apply `my/default-font' to FRAME (or the selected frame) when on a GUI."

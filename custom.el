@@ -8,8 +8,7 @@
  '(lsp-ui-sideline-actions-icon nil)
  '(org-export-backends '(ascii html md))
  '(org-support-shift-select t)
- '(package-selected-packages
-   '(iflipb treemacs symbol-overlay crux avy vundo undohist diff-hl haskell-mode compat doom-modeline nerd-icons color-theme-sanityinc-solarized rainbow-delimiters which-key diminish multiple-cursors expand-region yasnippet yasnippet-snippets comment-dwim-2 bm popwin yaml-mode markdown-mode protobuf-mode projectile magit git-modes ag wgrep wgrep-ag cmake-mode cmake-font-lock clang-format dash f ht spinner lv go-mode go-eldoc go-guru gorepl-mode go-playground lsp-pyright py-yapf org-bullets htmlize flycheck let-alist vterm websocket s use-package))
+ '(package-selected-packages nil)
  '(projectile-project-root-files-top-down-recurring '("compile_commands.json" ".ccls" ".svn" "CVS" "Makefile"))
  '(tramp-default-host "bigdata"))
 (custom-set-faces

@@ -50,5 +50,10 @@
 
 (add-hook 'python-mode-hook #'hs-minor-mode)
 
+;; Disable flycheck in Python buffers.  Diagnostics come from pyright via
+;; lsp-mode, so flycheck's standalone checkers are redundant (and noisy when
+;; flake8/pylint are absent).
+(add-hook 'python-mode-hook (lambda () (flycheck-mode -1)))
+
 (provide 'init-python)
 ;;; init-python.el ends here

@@ -12,6 +12,10 @@
   :defer 1
   :diminish projectile-mode
   :bind-keymap ("C-c p" . projectile-command-map)
+  ;; VS Code Ctrl-P: fuzzy-find any file in the current project.  Sits next to
+  ;; C-x C-f (exact-path find-file, unchanged); orderless (init-completion.el)
+  ;; supplies the space-separated fuzzy matching in the minibuffer.
+  :bind ("C-x f" . projectile-find-file)
   :custom (projectile-enable-caching t)
   :config (projectile-mode +1))
 

@@ -7,7 +7,9 @@
 (use-package flycheck
   :ensure t
   :config
-  (add-hook 'after-init-hook 'global-flycheck-mode)
+  ;; Global flycheck disabled by request.  LSP (pyright/clangd) supplies
+  ;; diagnostics where a server is running; re-enable with M-x global-flycheck-mode.
+  ;; (add-hook 'after-init-hook 'global-flycheck-mode)
 
   ;; Flycheck mode:
   ;; Override default flycheck triggers
