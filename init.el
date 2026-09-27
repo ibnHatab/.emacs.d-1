@@ -88,3 +88,10 @@
 
 (provide 'init)
 ;;; init.el ends here
+
+;; --- Metis LLP (.llp) — llp-mode + eglot language server ---------------
+;; (installed 2026-07-23 from ~/repo/metis/editors/llp-emacs)
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(require 'llp-mode)
+(add-hook 'llp-mode-hook #'eglot-ensure)
+;; ------------------------------------------------------------------------
